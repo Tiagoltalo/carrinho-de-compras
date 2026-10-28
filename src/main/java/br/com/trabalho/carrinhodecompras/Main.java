@@ -1,8 +1,12 @@
 package br.com.trabalho.carrinhodecompras;
 
-public class Main {
+import br.com.trabalho.carrinhodecompras.io.MenuLogin;
 
+public class Main {
+    
     public static void main(String[] args) {
-        System.out.println("Bem-vindo ao Carrinho de Compras!");
+        MenuLogin menuLogin = new MenuLogin();
+        
+        menuLogin.menu();
     }
 }
