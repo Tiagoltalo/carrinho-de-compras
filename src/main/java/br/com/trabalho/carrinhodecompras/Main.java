@@ -1,11 +1,12 @@
 package br.com.trabalho.carrinhodecompras;
 
-/**
- * Classe principal da aplicação Carrinho de Compras.
- */
-public class Main {
+import br.com.trabalho.carrinhodecompras.io.MenuPrincipal;
 
+public class Main {
+    
     public static void main(String[] args) {
-        System.out.println("Bem-vindo ao Carrinho de Compras!");
+        MenuPrincipal menuLogin = new MenuPrincipal();
+        
+        menuLogin.menu();
     }
 }
