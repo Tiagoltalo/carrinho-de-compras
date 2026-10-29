@@ -34,7 +34,7 @@ public class MenuUsuario {
                     System.out.print("Histórico de Compras...");
                     break;
 
-                case 4:
+                case 0:
                     System.out.print("Retornando a tela de login...");
                     break;
             

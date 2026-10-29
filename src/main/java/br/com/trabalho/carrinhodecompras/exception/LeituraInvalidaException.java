@@ -16,4 +16,7 @@ public class LeituraInvalidaException extends Exception {
         this.campo = campo;
     }
     
+    public String getValor () { return valor; }
+
+    public String getCampo () { return campo; }
 }

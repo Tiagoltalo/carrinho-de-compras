@@ -1,6 +1,5 @@
 package br.com.trabalho.carrinhodecompras.io;
 
-import br.com.trabalho.carrinhodecompras.controller.ControllerLogin;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
 public class MenuPrincipal {
@@ -31,7 +30,7 @@ public class MenuPrincipal {
                     System.out.print("Logou na conta...");
                     break;
 
-                case 3:
+                case 0:
                     System.out.print("Saiu do programa...");
                     looping = false;
                     break;

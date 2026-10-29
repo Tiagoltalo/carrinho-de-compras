@@ -38,7 +38,7 @@ public class MenuAdministrador {
                     System.out.print("Excluiu o produto...");
                     break;
 
-                case 5:
+                case 0:
                     System.out.print("Retornou ao menu principal...");
                     looping = false;
                     break;
