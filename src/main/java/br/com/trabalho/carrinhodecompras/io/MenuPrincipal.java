@@ -5,6 +5,7 @@ import br.com.trabalho.carrinhodecompras.utils.Utils;
 public class MenuPrincipal {
     private final MenuView menuView = new MenuView();
     private final LeitorDeOpcao leitorDeOpcao = new LeitorDeOpcao();
+    private final ControllerLogin controllerLogin = new ControllerLogin();
     private final Utils utils = new Utils();
 
     public MenuPrincipal () {}
@@ -23,7 +24,7 @@ public class MenuPrincipal {
 
             switch (opcao) {
                 case 1:
-                    System.out.print("Criou usuário...");
+                    controllerLogin.criarUsuario();
                     break;
 
                 case 2:
