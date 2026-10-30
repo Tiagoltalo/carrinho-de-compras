@@ -7,6 +7,7 @@ public class MenuPrincipal {
     private final MenuView menuView = new MenuView();
     private final LeitorDeOpcao leitorDeOpcao = new LeitorDeOpcao();
     private final ControllerLogin controllerLogin = new ControllerLogin();
+    private final MenuAdministrador menuAdministrador = new MenuAdministrador();
     private final Utils utils = new Utils();
 
     public MenuPrincipal () {}
@@ -32,16 +33,21 @@ public class MenuPrincipal {
                     System.out.print("Logou na conta...");
                     break;
 
+                case 3:
+                    // Acesso direto enquanto o login ainda não está implementado.
+                    menuAdministrador.menu();
+                    break;
+
                 case 0:
                     System.out.print("Saiu do programa...");
                     looping = false;
                     break;
 
                 default:
-                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 2.\n");
+                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 3.\n");
                     utils.pausar();
                     break;
             }
         }
     }
-}
+}
