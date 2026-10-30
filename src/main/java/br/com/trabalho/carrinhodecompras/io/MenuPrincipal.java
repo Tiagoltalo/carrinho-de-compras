@@ -1,5 +1,6 @@
 package br.com.trabalho.carrinhodecompras.io;
 
+import br.com.trabalho.carrinhodecompras.controller.ControllerLogin;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
 public class MenuPrincipal {
@@ -35,9 +36,9 @@ public class MenuPrincipal {
                     System.out.print("Saiu do programa...");
                     looping = false;
                     break;
-            
+
                 default:
-                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 1 - 3.\n");
+                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 2.\n");
                     utils.pausar();
                     break;
             }
