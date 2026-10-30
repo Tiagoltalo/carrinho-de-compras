@@ -3,7 +3,7 @@ package br.com.trabalho.carrinhodecompras.utils;
 import java.util.Scanner;
 
 public class Utils {
-    Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     public String lerTexto () {
         String texto = scanner.nextLine();

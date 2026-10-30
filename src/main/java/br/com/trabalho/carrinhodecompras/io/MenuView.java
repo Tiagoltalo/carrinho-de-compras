@@ -8,6 +8,7 @@ public class MenuView {
         ╠══════════════════════════════════════╣
         ║  [ 1 ] Criar Usuário                 ║
         ║  [ 2 ] Entrar na Conta               ║
+        ║  [ 3 ] Área do Administrador         ║
         ║  [ 0 ] Sair                          ║
         ╚══════════════════════════════════════╝
 
@@ -38,8 +39,9 @@ public class MenuView {
         ║  [ 2 ] Consultar Produto                         ║
         ║  [ 3 ] Modificar Quantidade em Estoque           ║
         ║  [ 4 ] Excluir Produto                           ║
+        ║  [ 5 ] Listar Todos os Produtos                  ║
         ║  [ 0 ] Retornar ao Menu Principal                ║
         ╚══════════════════════════════════════════════════╝
         """);
     }
-}
+}
