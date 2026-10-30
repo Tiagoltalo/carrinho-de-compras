@@ -8,7 +8,7 @@ public class MenuView {
         ╠══════════════════════════════════════╣
         ║  [ 1 ] Criar Usuário                 ║
         ║  [ 2 ] Entrar na Conta               ║
-        ║  [ 3 ] Sair                          ║
+        ║  [ 0 ] Sair                          ║
         ╚══════════════════════════════════════╝
 
         Obs: Digite o número correspondente à opção para acessá-la.
@@ -23,7 +23,7 @@ public class MenuView {
         ║  [ 1 ] Listar Produtos               ║
         ║  [ 2 ] Acessar Carrinho              ║
         ║  [ 3 ] Histórico de Compras          ║
-        ║  [ 4 ] Retornar ao Menu Principal    ║
+        ║  [ 0 ] Retornar ao Menu Principal    ║
         ╚══════════════════════════════════════╝
         """);
     }
@@ -38,7 +38,7 @@ public class MenuView {
         ║  [ 2 ] Consultar Produto                         ║
         ║  [ 3 ] Modificar Quantidade em Estoque           ║
         ║  [ 4 ] Excluir Produto                           ║
-        ║  [ 5 ] Retornar ao Menu Principal                ║
+        ║  [ 0 ] Retornar ao Menu Principal                ║
         ╚══════════════════════════════════════════════════╝
         """);
     }

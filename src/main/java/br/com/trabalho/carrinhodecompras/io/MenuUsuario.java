@@ -34,12 +34,12 @@ public class MenuUsuario {
                     System.out.print("Histórico de Compras...");
                     break;
 
-                case 4:
+                case 0:
                     System.out.print("Retornando a tela de login...");
                     break;
             
                 default:
-                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 1 - 4.\n");
+                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 3.\n");
                     utils.pausar();
                     break;
             }
