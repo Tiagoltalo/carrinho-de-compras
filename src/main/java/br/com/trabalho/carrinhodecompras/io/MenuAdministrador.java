@@ -1,10 +1,12 @@
 package br.com.trabalho.carrinhodecompras.io;
 
+import br.com.trabalho.carrinhodecompras.controller.ControllerProduto;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
 public class MenuAdministrador {
     private final MenuView menuView = new MenuView();
     private final LeitorDeOpcao leitorDeOpcao = new LeitorDeOpcao();
+    private final ControllerProduto controllerProduto = new ControllerProduto();
     private final Utils utils = new Utils();
 
     public MenuAdministrador () {}
@@ -23,19 +25,23 @@ public class MenuAdministrador {
 
             switch (opcao) {
                 case 1:
-                    System.out.print("Cadastrou o produto...");
+                    controllerProduto.cadastrarProduto();
                     break;
 
                 case 2:
-                    System.out.print("Consultou o produto...");
+                    controllerProduto.consultarProduto();
                     break;
 
                 case 3:
-                    System.out.print("Modificou a quantidade em estoque...");
+                    controllerProduto.modificarQuantidade();
                     break;
 
                 case 4:
-                    System.out.print("Excluiu o produto...");
+                    controllerProduto.excluirProduto();
+                    break;
+
+                case 5:
+                    controllerProduto.listarProdutos();
                     break;
 
                 case 0:
@@ -44,7 +50,7 @@ public class MenuAdministrador {
                     break;
             
                 default:
-                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 1 - 5.\n");
+                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 5.\n");
                     utils.pausar();
                     break;
             }
