@@ -37,7 +37,3 @@ nbdist/
 # OS generated files
 .DS_Store
 Thumbs.db
-
-# Ignore all .java files EXCEPT Main.java
-src/**/*.java
-!src/main/java/br/com/trabalho/carrinhodecompras/Main.java

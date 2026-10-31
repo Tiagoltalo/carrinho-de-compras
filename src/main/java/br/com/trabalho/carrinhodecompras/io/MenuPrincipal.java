@@ -1,10 +1,14 @@
 package br.com.trabalho.carrinhodecompras.io;
 
+import br.com.trabalho.carrinhodecompras.controller.ControllerLogin;
+import br.com.trabalho.carrinhodecompras.utils.LeitorDeArquivos;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
 public class MenuPrincipal {
     private final MenuView menuView = new MenuView();
     private final LeitorDeOpcao leitorDeOpcao = new LeitorDeOpcao();
+    private final ControllerLogin controllerLogin = new ControllerLogin();
+    private final LeitorDeArquivos leitorDeArquivos = new LeitorDeArquivos();
     private final Utils utils = new Utils();
 
     public MenuPrincipal () {}
@@ -12,6 +16,8 @@ public class MenuPrincipal {
     public void menu () {
         boolean looping = true;
         int opcao;
+
+        leitorDeArquivos.lerUsuarios("usuarios");
 
         while (looping) {
             utils.limparTerminal();
@@ -23,11 +29,11 @@ public class MenuPrincipal {
 
             switch (opcao) {
                 case 1:
-                    System.out.print("Criou usuário...");
+                    controllerLogin.criarUsuario();
                     break;
 
                 case 2:
-                    System.out.print("Logou na conta...");
+                    controllerLogin.logarUsuario();
                     break;
 
                 case 0:
@@ -36,7 +42,7 @@ public class MenuPrincipal {
                     break;
             
                 default:
-                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 1 - 3.\n");
+                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 2.\n");
                     utils.pausar();
                     break;
             }
