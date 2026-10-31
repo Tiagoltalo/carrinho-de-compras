@@ -8,11 +8,14 @@ import java.util.List;
 import java.util.ArrayList;
 import br.com.trabalho.carrinhodecompras.model.Usuario;
 
-// Observação: fazer um overloading para ler diferentes arquivos: usuarios.txt, compras_nomeusuario.txt, carrinho_nomeusuario.txt e produtos.txt.
 public class LeitorDeArquivos {
     private final Utils utils = new Utils();
+    private final int CAMPOS_DE_USUARIOS = 3;
+    private final int CAMPOS_DE_PRODUTOS = 1; // Rever o número de campos das constantes, a partir dessa.
+    private final int CAMPOS_DE_COMPRAS = 1;
+    private final int CAMPOS_DE_CARRINHO = 1;
 
-    private List<String[]> lerArquivo (String nome) {
+    private List<String[]> lerArquivo (String nome, int numeroDeCampos) {
         Path path = Path.of("data", nome + ".txt");
         
         try (BufferedReader bufferDeLeitura = Files.newBufferedReader(path)) {
@@ -23,7 +26,8 @@ public class LeitorDeArquivos {
             while ((linha = bufferDeLeitura.readLine())!= null) {
                 dados = linha.split(";");
 
-                if (dados.length != 3) {
+                // Lançar aviso aqui e outro caso haja uma linha em branco
+                if (dados.length != numeroDeCampos) {
                     continue;
                 }
 
@@ -37,8 +41,9 @@ public class LeitorDeArquivos {
         }
     }
 
+    // Alterar a convenção de nomes de arquivos, como carrinho_nomeusuario.txt.
     public void lerProdutos (String nome) {
-        List<String[]> produtos = lerArquivo(nome);
+        List<String[]> produtos = lerArquivo(nome, CAMPOS_DE_PRODUTOS);
 
         for (String[] produto : produtos) {
             
@@ -46,20 +51,24 @@ public class LeitorDeArquivos {
     }
 
     public void lerUsuarios (String nome) {
-        List<String[]> usuarios = lerArquivo(nome);
+        List<String[]> usuarios = lerArquivo(nome, CAMPOS_DE_USUARIOS);
 
-        for (String[] usuario : usuarios) {
-            int idUsuario = Integer.parseInt(usuario[0]);
-            String nomeUsuario = usuario[1];
-            String senhaUsuario = usuario[2];
-
-            Usuario usuarioLista = new Usuario(idUsuario, nomeUsuario, senhaUsuario);
-            Usuario.adicionarUsuarioALista(usuarioLista);
+        for (String[] dadosUsuario : usuarios) {
+            try {
+                int idUsuario = Integer.parseInt(dadosUsuario[0]);
+                String nomeUsuario = dadosUsuario[1];
+                String senhaUsuario = dadosUsuario[2];
+    
+                Usuario usuario = new Usuario(idUsuario, nomeUsuario, senhaUsuario);
+                Usuario.adicionarUsuarioALista(usuario);
+            } catch (NumberFormatException e) {
+                continue;
+            }
         }
     }
 
     public void lerCarrinho (String nome) {
-        List<String[]> itens = lerArquivo(nome);
+        List<String[]> itens = lerArquivo(nome, CAMPOS_DE_CARRINHO);
 
         for (String[] item : itens) {
             
@@ -67,7 +76,7 @@ public class LeitorDeArquivos {
     }
 
     public void lerCompras (String nome) {
-        List<String[]> compras = lerArquivo(nome);
+        List<String[]> compras = lerArquivo(nome, CAMPOS_DE_COMPRAS);
 
         for (String[] compra : compras) {
             
