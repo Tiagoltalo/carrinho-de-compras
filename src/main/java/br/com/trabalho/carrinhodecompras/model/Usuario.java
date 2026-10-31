@@ -31,6 +31,16 @@ public class Usuario {
         return ultimoId;
     }
 
+    public static boolean verificarExistenciaDeUsuario (List<Usuario> usuarios, String nome) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNome().equals(nome)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public int getId () { return this.id; }
     public String getNome () { return this.nome; }
     public String getSenha () { return this.senha; }

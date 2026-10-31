@@ -36,6 +36,7 @@ public class MenuUsuario {
 
                 case 0:
                     System.out.print("Retornando a tela de login...");
+                    looping = false;
                     break;
             
                 default:

@@ -41,7 +41,7 @@ public class LeitorDeArquivos {
         List<String[]> produtos = lerArquivo(nome);
 
         for (String[] produto : produtos) {
-
+            
         }
     }
 
@@ -49,7 +49,12 @@ public class LeitorDeArquivos {
         List<String[]> usuarios = lerArquivo(nome);
 
         for (String[] usuario : usuarios) {
+            int idUsuario = Integer.parseInt(usuario[0]);
+            String nomeUsuario = usuario[1];
+            String senhaUsuario = usuario[2];
 
+            Usuario usuarioLista = new Usuario(idUsuario, nomeUsuario, senhaUsuario);
+            Usuario.adicionarUsuarioALista(usuarioLista);
         }
     }
 
