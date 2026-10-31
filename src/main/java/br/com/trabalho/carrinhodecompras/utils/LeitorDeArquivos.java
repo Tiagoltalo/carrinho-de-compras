@@ -1,38 +1,71 @@
 package br.com.trabalho.carrinhodecompras.utils;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Files;
 import java.util.List;
-import java.util.Scanner;
+import java.util.ArrayList;
 import br.com.trabalho.carrinhodecompras.model.Usuario;
 
-// Observação: fazer um overloading para ler diferentes arquivos: usuarios.txt, compras_nomeusuario.txt e produtos.txt.
+// Observação: fazer um overloading para ler diferentes arquivos: usuarios.txt, compras_nomeusuario.txt, carrinho_nomeusuario.txt e produtos.txt.
 public class LeitorDeArquivos {
-    private final CriadorDeArquivo criadorDeArquivo = new CriadorDeArquivo();
     private final Utils utils = new Utils();
-    private final String caminho = "/home/tiagoitalo/Documentos/Carrinho de Compras/src/main/java/br/com/trabalho/carrinhodecompras/files/";
 
-    public void lerArquivo (String nome) {
-        String[] dados;
-        String linha;
+    private List<String[]> lerArquivo (String nome) {
+        Path path = Path.of("data", nome + ".txt");
+        
+        try (BufferedReader bufferDeLeitura = Files.newBufferedReader(path)) {
+            String linha;
+            String[] dados;
+            List<String[]> dadosList = new ArrayList<>();
 
-        try (FileReader arquivo = new FileReader(caminho + nome + ".txt");) {
-            BufferedReader bufferDeLeitura = new BufferedReader(arquivo);
-
-            // Fazer melhorias sugeridas pelo Cloud
             while ((linha = bufferDeLeitura.readLine())!= null) {
-                dados = linha.split("-");
-                utils.imprimirMensagem(dados[0]);
-                utils.imprimirMensagem(dados[1]);
-                utils.imprimirMensagem(dados[2]);
-                utils.pausar();
-                Usuario usuario = new Usuario(Integer.parseInt(dados[0]), dados[1], dados[2]);
-                Usuario.adicionarUsuarioALista(usuario);
+                dados = linha.split(";");
+
+                if (dados.length != 3) {
+                    continue;
+                }
+
+                dadosList.add(dados);
             }
+
+            return dadosList;
         } catch (IOException e) {
             utils.imprimirMensagem("Não foi possível ler o arquivo.");
+            return new ArrayList<>();
+        }
+    }
+
+    public void lerProdutos (String nome) {
+        List<String[]> produtos = lerArquivo(nome);
+
+        for (String[] produto : produtos) {
+
+        }
+    }
+
+    public void lerUsuarios (String nome) {
+        List<String[]> usuarios = lerArquivo(nome);
+
+        for (String[] usuario : usuarios) {
+
+        }
+    }
+
+    public void lerCarrinho (String nome) {
+        List<String[]> itens = lerArquivo(nome);
+
+        for (String[] item : itens) {
+            
+        }
+    }
+
+    public void lerCompras (String nome) {
+        List<String[]> compras = lerArquivo(nome);
+
+        for (String[] compra : compras) {
+            
         }
     }
 }

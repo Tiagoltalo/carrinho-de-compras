@@ -22,7 +22,7 @@ public class LeitorDeUsuario {
                 } else if (texto.length() < 5) {
                     throw new LeituraInvalidaException(texto, "nome", "o campo não pode ter menos que 5 caracteres.");
                 } else if (!(validarNome(texto))) {
-                    throw new LeituraInvalidaException(texto, "nome", "o campo não pode conter números ou espaços.");
+                    throw new LeituraInvalidaException(texto, "nome", "o campo não pode conter números, espaços ou \";\".");
                 } else {
                     return texto.toLowerCase();
                 }
@@ -46,7 +46,7 @@ public class LeitorDeUsuario {
                 } else if (texto.length() < 5) {
                     throw new LeituraInvalidaException(texto, "senha", "o campo não pode ter menos que 5 caracteres.");
                 } else if (!(validarSenha(texto))) {
-                    throw new LeituraInvalidaException(texto, "senha", "o campo precisa conter números, caracteres maiúsculos e minúsculos e não pode conter espaços.");
+                    throw new LeituraInvalidaException(texto, "senha", "o campo precisa conter números, caracteres maiúsculos e minúsculos e não pode conter espaços ou \";\".");
                 } else {
                     return texto;
                 }
@@ -59,12 +59,12 @@ public class LeitorDeUsuario {
 
     private boolean validarNome (String nome) {
         Pattern patternNumero = Pattern.compile("[0-9]+");
-        Pattern patternEspaco = Pattern.compile(" ");
+        Pattern patternEspacoPontoEVirgula = Pattern.compile("[ ;]");
         Matcher nomeNumero = patternNumero.matcher(nome);
-        Matcher nomeEspaco = patternEspaco.matcher(nome);
+        Matcher nomeEspacoPontoEVirgula = patternEspacoPontoEVirgula.matcher(nome);
         boolean nomeValido = false;
 
-        if (!(nomeNumero.find()) && !(nomeEspaco.find())) {
+        if (!(nomeNumero.find()) && !(nomeEspacoPontoEVirgula.find())) {
             nomeValido = true;
         }
 
@@ -75,11 +75,11 @@ public class LeitorDeUsuario {
         Pattern patternMinuscula = Pattern.compile("[a-z]+");
         Pattern patternMaiuscula = Pattern.compile("[A-Z]+");
         Pattern patternNumero = Pattern.compile("[0-9]+");
-        Pattern patternEspaco = Pattern.compile(" ");
+        Pattern patternEspacoPontoEVirgula = Pattern.compile("[ ;]+");
         Matcher senhaMinuscula = patternMinuscula.matcher(senha);
         Matcher senhaMaiuscula = patternMaiuscula.matcher(senha);
         Matcher senhaNumero = patternNumero.matcher(senha);
-        Matcher senhaEspaco = patternEspaco.matcher(senha);
+        Matcher senhaEspacoPontoEVirgula = patternEspacoPontoEVirgula.matcher(senha);
         boolean senhaValida = true;
 
         if (!(senhaMinuscula.find())) {
@@ -94,7 +94,7 @@ public class LeitorDeUsuario {
             senhaValida = false;
         }
 
-        if(senhaEspaco.find()) {
+        if(senhaEspacoPontoEVirgula.find()) {
             senhaValida = false;
         }
 

@@ -19,6 +19,7 @@ public class ControllerLogin {
         String nome = leitorDeUsuario.lerNome();
         String senha = leitorDeUsuario.lerSenha();
         Usuario usuario = new Usuario(id, nome, senha);
+        Usuario.adicionarUsuarioALista(usuario);
 
         utils.imprimirMensagem("\nUsuário criado com sucesso.");
         utils.pausar();

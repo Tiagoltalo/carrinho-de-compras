@@ -17,7 +17,7 @@ public class MenuPrincipal {
         boolean looping = true;
         int opcao;
 
-        leitorDeArquivos.lerArquivo("usuarios");
+        leitorDeArquivos.lerUsuarios("usuarios");
 
         while (looping) {
             utils.limparTerminal();
