@@ -44,7 +44,7 @@ public class MenuAdministrador {
                     break;
             
                 default:
-                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 1 - 5.\n");
+                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 4.\n");
                     utils.pausar();
                     break;
             }

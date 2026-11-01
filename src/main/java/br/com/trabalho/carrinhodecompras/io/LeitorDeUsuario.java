@@ -12,15 +12,19 @@ public class LeitorDeUsuario {
         while (true) {
             String texto;
 
-            System.out.print("Digite o nome do usuário (ex: tiago italo): ");
+            System.out.print("Digite o nome do usuário (ex: tiagoitalo): ");
             texto = utils.lerTexto();
+            texto = texto.trim();
+
             try {
                 if (texto.equals("")) {
-                    throw new LeituraInvalidaException(texto, "nome", "o campo não pode estar vazio");
+                    throw new LeituraInvalidaException(texto, "nome", "o campo não pode estar vazio.");
                 } else if (texto.length() < 5) {
-                    throw new LeituraInvalidaException(texto, "nome", "o campo não pode ter menos que 5 caracteres");
+                    throw new LeituraInvalidaException(texto, "nome", "o campo não pode ter menos que 5 caracteres.");
+                } else if (!(validarNome(texto))) {
+                    throw new LeituraInvalidaException(texto, "nome", "o campo não pode conter números, espaços ou \";\".");
                 } else {
-                    return texto;
+                    return texto.toLowerCase();
                 }
             } catch (LeituraInvalidaException e) {
                 utils.imprimirMensagem(e.getMessage() + "\n\n");
@@ -34,14 +38,15 @@ public class LeitorDeUsuario {
 
             System.out.print("Digite a senha: ");
             texto = utils.lerTexto();
+            texto = texto.trim();
 
             try {
                 if (texto.equals("")) {
-                    throw new LeituraInvalidaException(texto, "senha", "o campo não pode estar vazio");
+                    throw new LeituraInvalidaException(texto, "senha", "o campo não pode estar vazio.");
                 } else if (texto.length() < 5) {
-                    throw new LeituraInvalidaException(texto, "senha", "o campo não pode ter menos que 5 caracteres");
+                    throw new LeituraInvalidaException(texto, "senha", "o campo não pode ter menos que 5 caracteres.");
                 } else if (!(validarSenha(texto))) {
-                    throw new LeituraInvalidaException(texto, "senha", "o campo precisa conter números e caracteres maiúsculos e minúsculos");
+                    throw new LeituraInvalidaException(texto, "senha", "o campo precisa conter números, caracteres maiúsculos e minúsculos e não pode conter espaços ou \";\".");
                 } else {
                     return texto;
                 }
@@ -52,13 +57,29 @@ public class LeitorDeUsuario {
         }
     }
 
+    private boolean validarNome (String nome) {
+        Pattern patternNumero = Pattern.compile("[0-9]+");
+        Pattern patternEspacoPontoEVirgula = Pattern.compile("[ ;]");
+        Matcher nomeNumero = patternNumero.matcher(nome);
+        Matcher nomeEspacoPontoEVirgula = patternEspacoPontoEVirgula.matcher(nome);
+        boolean nomeValido = false;
+
+        if (!(nomeNumero.find()) && !(nomeEspacoPontoEVirgula.find())) {
+            nomeValido = true;
+        }
+
+        return nomeValido;
+    }
+
     private boolean validarSenha (String senha) {
         Pattern patternMinuscula = Pattern.compile("[a-z]+");
         Pattern patternMaiuscula = Pattern.compile("[A-Z]+");
         Pattern patternNumero = Pattern.compile("[0-9]+");
+        Pattern patternEspacoPontoEVirgula = Pattern.compile("[ ;]+");
         Matcher senhaMinuscula = patternMinuscula.matcher(senha);
         Matcher senhaMaiuscula = patternMaiuscula.matcher(senha);
         Matcher senhaNumero = patternNumero.matcher(senha);
+        Matcher senhaEspacoPontoEVirgula = patternEspacoPontoEVirgula.matcher(senha);
         boolean senhaValida = true;
 
         if (!(senhaMinuscula.find())) {
@@ -70,6 +91,10 @@ public class LeitorDeUsuario {
         }
 
         if (!(senhaNumero.find())) {
+            senhaValida = false;
+        }
+
+        if(senhaEspacoPontoEVirgula.find()) {
             senhaValida = false;
         }
 

@@ -1,12 +1,13 @@
 package br.com.trabalho.carrinhodecompras.io;
 
-import br.com.trabalho.carrinhodecompras.controller.ControllerLogin;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
 public class MenuPrincipal {
     private final MenuView menuView = new MenuView();
     private final LeitorDeOpcao leitorDeOpcao = new LeitorDeOpcao();
     private final ControllerLogin controllerLogin = new ControllerLogin();
+    private final LeitorDeArquivos leitorDeArquivos = new LeitorDeArquivos();
+    private final EscritorDeArquivos escritorDeArquivos = new EscritorDeArquivos();
     private final Utils utils = new Utils();
 
     public MenuPrincipal () {}
@@ -14,6 +15,8 @@ public class MenuPrincipal {
     public void menu () {
         boolean looping = true;
         int opcao;
+
+        leitorDeArquivos.lerUsuarios("usuarios");
 
         while (looping) {
             utils.limparTerminal();
@@ -29,10 +32,11 @@ public class MenuPrincipal {
                     break;
 
                 case 2:
-                    System.out.print("Logou na conta...");
+                    controllerLogin.logarUsuario();
                     break;
 
                 case 0:
+                    escritorDeArquivos.escreverUsuarios();
                     System.out.print("Saiu do programa...");
                     looping = false;
                     break;
