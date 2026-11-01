@@ -1,6 +1,5 @@
 package br.com.trabalho.carrinhodecompras.io;
 
-// menus
 public class MenuView {
     public void imprimirMenuPrincipal () {
         System.out.println("""
@@ -16,7 +15,6 @@ public class MenuView {
         """);
     }
     
-    // usuario comum
     public void imprimirMenuUsuario () {
         System.out.println("""
         ╔══════════════════════════════════════╗
@@ -30,7 +28,6 @@ public class MenuView {
         """);
     }
 
-    // admin
     public void imprimirMenuAdministrador () {
         System.out.println("""
         ╔══════════════════════════════════════════════════╗
@@ -38,7 +35,7 @@ public class MenuView {
         ╠══════════════════════════════════════════════════╣
         ║  [ 1 ] Cadastrar Produto                         ║
         ║  [ 2 ] Consultar Produto                         ║
-        ║  [ 3 ] Modificar Quantidade em Estoque           ║
+        ║  [ 3 ] Editar Produto                            ║
         ║  [ 4 ] Excluir Produto                           ║
         ║  [ 0 ] Retornar ao Menu Principal                ║
         ╚══════════════════════════════════════════════════╝
