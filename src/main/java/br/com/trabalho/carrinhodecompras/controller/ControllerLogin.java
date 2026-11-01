@@ -6,7 +6,7 @@ import br.com.trabalho.carrinhodecompras.io.LeitorDeUsuario;
 import br.com.trabalho.carrinhodecompras.io.MenuUsuario;
 import br.com.trabalho.carrinhodecompras.io.MenuAdministrador;
 import br.com.trabalho.carrinhodecompras.utils.LeitorDeArquivos;
-import br.com.trabalho.carrinhodecompras.utils.CriadorDeArquivo;
+import br.com.trabalho.carrinhodecompras.utils.EscritorDeArquivos;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
 public class ControllerLogin {
@@ -15,11 +15,11 @@ public class ControllerLogin {
     private final MenuAdministrador menuAdministrador = new MenuAdministrador();
     private final LeitorDeUsuario leitorDeUsuario = new LeitorDeUsuario();
     private final LeitorDeArquivos leitorDeArquivos = new LeitorDeArquivos();
-    private final CriadorDeArquivo criadorDeArquivo = new CriadorDeArquivo();
+    private final EscritorDeArquivos criadorDeArquivo = new EscritorDeArquivos();
     private final Utils utils = new Utils();
 
     public void criarUsuario () {
-        int id = Usuario.buscarUltimoId(Usuario.getUsuarios());
+        int id = Usuario.buscarUltimoId(Usuario.getUsuarios()) + 1;
         String nome = leitorDeUsuario.lerNome();
         String senha = leitorDeUsuario.lerSenha();
 

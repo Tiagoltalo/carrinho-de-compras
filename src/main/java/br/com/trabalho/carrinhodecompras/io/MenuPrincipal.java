@@ -2,6 +2,7 @@ package br.com.trabalho.carrinhodecompras.io;
 
 import br.com.trabalho.carrinhodecompras.controller.ControllerLogin;
 import br.com.trabalho.carrinhodecompras.utils.LeitorDeArquivos;
+import br.com.trabalho.carrinhodecompras.utils.EscritorDeArquivos;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
 public class MenuPrincipal {
@@ -9,6 +10,7 @@ public class MenuPrincipal {
     private final LeitorDeOpcao leitorDeOpcao = new LeitorDeOpcao();
     private final ControllerLogin controllerLogin = new ControllerLogin();
     private final LeitorDeArquivos leitorDeArquivos = new LeitorDeArquivos();
+    private final EscritorDeArquivos escritorDeArquivos = new EscritorDeArquivos();
     private final Utils utils = new Utils();
 
     public MenuPrincipal () {}
@@ -37,6 +39,7 @@ public class MenuPrincipal {
                     break;
 
                 case 0:
+                    escritorDeArquivos.escreverUsuarios();
                     System.out.print("Saiu do programa...");
                     looping = false;
                     break;
