@@ -1,10 +1,12 @@
 package br.com.trabalho.carrinhodecompras.io;
 
+import br.com.trabalho.carrinhodecompras.controller.ControllerUsuario;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
 public class MenuUsuario {
     private final MenuView menuView = new MenuView();
     private final LeitorDeOpcao leitorDeOpcao = new LeitorDeOpcao();
+    private final ControllerUsuario controllerUsuario = new ControllerUsuario();
     private final Utils utils = new Utils();
 
     public MenuUsuario () {}
@@ -23,7 +25,7 @@ public class MenuUsuario {
 
             switch (opcao) {
                 case 1:
-                    System.out.print("Produtos...");
+                    controllerUsuario.listarProdutos();
                     break;
 
                 case 2:
