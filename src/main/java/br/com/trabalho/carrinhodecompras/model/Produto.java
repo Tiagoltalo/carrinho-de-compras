@@ -7,17 +7,6 @@ import java.util.List;
 import java.util.Locale;
 import br.com.trabalho.carrinhodecompras.exception.ProdutoDuplicadoException;
 
-/**
- * Classe abstrata que representa qualquer produto vendido na loja.
- *
- * Guarda os dados comuns (id, nome, preço e quantidade em estoque) e obriga
- * cada tipo de produto concreto a informar sua categoria ({@link #getCategoria()}).
- * Todos os dados são validados no construtor e nos setters, então um objeto
- * {@code Produto} nunca existe em estado inválido.
- *
- * A lista estática de produtos funciona da mesma forma que a lista de
- * {@link Usuario}: é a "memória" do sistema e é carregada/gravada no arquivo.
- */
 public abstract class Produto {
     private static List<Produto> produtos = new ArrayList<>();
     private final int id; // imutável: é a identidade do produto
@@ -36,8 +25,6 @@ public abstract class Produto {
     public abstract String getCategoria ();
 
     // ---------- lista de produtos (mesmo padrão de Usuario) ----------
-
-    /** @throws ProdutoDuplicadoException se já existir um produto com o mesmo id */
     public static void adicionarProdutoALista (Produto produto) {
         if (buscarPorId(produtos, produto.getId()) != null) {
             throw new ProdutoDuplicadoException(produto.getId());

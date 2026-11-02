@@ -4,13 +4,6 @@ import java.math.BigDecimal;
 import java.util.regex.Pattern;
 import br.com.trabalho.carrinhodecompras.exception.LeituraInvalidaException;
 
-/**
- * Regras de validação dos campos de um produto.
- *
- * Ficam centralizadas aqui para serem usadas em todos os caminhos de entrada:
- * a digitação no teclado, o construtor de {@link Produto} e a leitura do
- * arquivo .txt. Assim nenhum produto inválido consegue ser criado.
- */
 public final class ValidadorProduto {
     public static final int TAMANHO_MAXIMO_NOME = 100;
 
@@ -20,7 +13,6 @@ public final class ValidadorProduto {
     private ValidadorProduto () {}
 
     // ---------- ID ----------
-
     public static int validarId (String texto) {
         return validarId(lerInteiro(texto, "id"));
     }
@@ -33,7 +25,6 @@ public final class ValidadorProduto {
     }
 
     // ---------- NOME ----------
-
     public static String validarNome (String nome) {
         String valor = nome == null ? "" : nome.trim();
 
@@ -51,7 +42,6 @@ public final class ValidadorProduto {
     }
 
     // ---------- PREÇO ----------
-
     public static BigDecimal validarPreco (String texto) {
         String valor = texto == null ? "" : texto.trim().replace(',', '.');
 
@@ -81,7 +71,6 @@ public final class ValidadorProduto {
     }
 
     // ---------- QUANTIDADE ----------
-
     public static int validarQuantidade (String texto) {
         return validarQuantidade(lerInteiro(texto, "quantidade"));
     }
@@ -94,7 +83,6 @@ public final class ValidadorProduto {
     }
 
     // ---------- auxiliar ----------
-
     private static int lerInteiro (String texto, String campo) {
         String valor = texto == null ? "" : texto.trim();
 

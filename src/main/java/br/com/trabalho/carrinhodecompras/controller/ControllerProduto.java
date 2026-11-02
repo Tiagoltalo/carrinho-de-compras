@@ -10,12 +10,6 @@ import br.com.trabalho.carrinhodecompras.model.Produto;
 import br.com.trabalho.carrinhodecompras.model.ProdutoComum;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
-/**
- * Gerenciamento de produtos pelo administrador: cadastrar, consultar,
- * editar e excluir. Pede os dados ao usuário, altera a lista de produtos
- * em memória. O arquivo produtos.txt é gravado ao sair do programa (MenuPrincipal),
- * da mesma forma que os usuários.
- */
 public class ControllerProduto {
     private static final int TENTATIVAS_DE_SENHA = 3;
 
@@ -26,7 +20,6 @@ public class ControllerProduto {
     private final Utils utils = new Utils();
 
     // ---------- CADASTRAR ----------
-
     public void cadastrarProduto () {
         // Mesmo esquema do id de usuário (ControllerLogin.criarUsuario): último id + 1.
         int id = Produto.buscarUltimoId(Produto.getProdutos()) + 1;
@@ -48,7 +41,6 @@ public class ControllerProduto {
     }
 
     // ---------- CONSULTAR ----------
-
     public void consultarProduto () {
         utils.imprimirMensagem("=== Consultar Produto ===\n\n");
         Produto produto = buscarProdutoPeloId();
@@ -62,7 +54,6 @@ public class ControllerProduto {
     }
 
     // ---------- EDITAR ----------
-
     public void editarProduto () {
         utils.imprimirMensagem("=== Editar Produto ===\n\n");
         Produto produto = buscarProdutoPeloId();
@@ -76,9 +67,9 @@ public class ControllerProduto {
 
         while (looping) {
             utils.limparTerminal();
-            imprimirDetalhes(produto);
-            utils.imprimirMensagem("\n");
             menuView.imprimirMenuEditarProduto();
+            utils.imprimirMensagem("\n");
+            imprimirDetalhes(produto);
 
             int opcao = leitorDeOpcao.lerOpcao();
             utils.imprimirMensagem("\n");
@@ -115,7 +106,6 @@ public class ControllerProduto {
     }
 
     // ---------- EXCLUIR ----------
-
     public void excluirProduto () {
         utils.imprimirMensagem("=== Excluir Produto ===\n\n");
         Produto produto = buscarProdutoPeloId();
@@ -140,8 +130,6 @@ public class ControllerProduto {
     }
 
     // ---------- auxiliares ----------
-
-    /** Pede o id e devolve o produto; se não existir, avisa e devolve null. */
     private Produto buscarProdutoPeloId () {
         int id = leitorDeProduto.lerId();
         Produto produto = Produto.buscarPorId(Produto.getProdutos(), id);
@@ -154,13 +142,14 @@ public class ControllerProduto {
     }
 
     private void imprimirDetalhes (Produto produto) {
+        utils.imprimirMensagem("===== Informações do produto =====" + "\n");
         utils.imprimirMensagem("ID: " + produto.getId() + "\n");
         utils.imprimirMensagem("Nome: " + produto.getNome() + "\n");
         utils.imprimirMensagem("Preço: " + produto.getPrecoFormatado() + "\n");
         utils.imprimirMensagem("Quantidade em estoque: " + produto.getQuantidade() + "\n");
+        utils.imprimirMensagem("==================================" + "\n\n");
     }
 
-    /** Pergunta "1 - Sim / 2 - Não" até receber uma resposta válida. */
     private boolean confirmarExclusao () {
         while (true) {
             utils.imprimirMensagem("\n");
@@ -174,7 +163,6 @@ public class ControllerProduto {
         }
     }
 
-    /** Pede a senha do administrador (até 3 tentativas), validando com a mesma regra do login. */
     private boolean confirmarSenhaDoAdministrador () {
         for (int tentativa = 1; tentativa <= TENTATIVAS_DE_SENHA; tentativa++) {
             System.out.print("\nDigite a senha do administrador para confirmar: ");

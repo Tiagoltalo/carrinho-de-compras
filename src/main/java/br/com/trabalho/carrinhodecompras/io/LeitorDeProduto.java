@@ -5,11 +5,6 @@ import br.com.trabalho.carrinhodecompras.exception.LeituraInvalidaException;
 import br.com.trabalho.carrinhodecompras.model.ValidadorProduto;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
-/**
- * Lê do teclado cada campo de um produto, repetindo a pergunta até o usuário
- * digitar um valor válido (mesmo estilo do {@link LeitorDeUsuario}).
- * A validação em si é feita por {@link ValidadorProduto}.
- */
 public class LeitorDeProduto {
     private final Utils utils = new Utils();
 
