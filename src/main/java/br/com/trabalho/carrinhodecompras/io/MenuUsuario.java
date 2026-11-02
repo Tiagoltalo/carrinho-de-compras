@@ -29,7 +29,7 @@ public class MenuUsuario {
                     break;
 
                 case 2:
-                    System.out.print("Carrinho...");
+                    controllerUsuario.acessarCarrinho();
                     break;
 
                 case 3:
@@ -37,7 +37,6 @@ public class MenuUsuario {
                     break;
 
                 case 0:
-                    System.out.print("Retornando a tela de login...");
                     looping = false;
                     break;
             

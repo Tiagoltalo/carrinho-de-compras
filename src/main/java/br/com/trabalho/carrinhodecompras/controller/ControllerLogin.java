@@ -5,8 +5,6 @@ import br.com.trabalho.carrinhodecompras.model.Usuario;
 import br.com.trabalho.carrinhodecompras.io.LeitorDeUsuario;
 import br.com.trabalho.carrinhodecompras.io.MenuUsuario;
 import br.com.trabalho.carrinhodecompras.io.MenuAdministrador;
-import br.com.trabalho.carrinhodecompras.utils.LeitorDeArquivos;
-import br.com.trabalho.carrinhodecompras.utils.EscritorDeArquivos;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
 public class ControllerLogin {
@@ -14,8 +12,6 @@ public class ControllerLogin {
     private final MenuUsuario menuUsuario = new MenuUsuario();
     private final MenuAdministrador menuAdministrador = new MenuAdministrador();
     private final LeitorDeUsuario leitorDeUsuario = new LeitorDeUsuario();
-    private final LeitorDeArquivos leitorDeArquivos = new LeitorDeArquivos();
-    private final EscritorDeArquivos criadorDeArquivo = new EscritorDeArquivos();
     private final Utils utils = new Utils();
 
     public void criarUsuario () {
