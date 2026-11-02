@@ -68,7 +68,6 @@ public class ControllerProduto {
         while (looping) {
             utils.limparTerminal();
             menuView.imprimirMenuEditarProduto();
-            utils.imprimirMensagem("\n");
             imprimirDetalhes(produto);
 
             int opcao = leitorDeOpcao.lerOpcao();
