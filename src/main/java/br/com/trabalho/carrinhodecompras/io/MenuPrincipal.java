@@ -20,6 +20,7 @@ public class MenuPrincipal {
         int opcao;
 
         leitorDeArquivos.lerUsuarios("usuarios");
+        leitorDeArquivos.lerProdutos("produtos");
 
         while (looping) {
             utils.limparTerminal();
@@ -40,6 +41,7 @@ public class MenuPrincipal {
 
                 case 0:
                     escritorDeArquivos.escreverUsuarios();
+                    escritorDeArquivos.escreverProdutos();
                     System.out.print("Saiu do programa...");
                     looping = false;
                     break;

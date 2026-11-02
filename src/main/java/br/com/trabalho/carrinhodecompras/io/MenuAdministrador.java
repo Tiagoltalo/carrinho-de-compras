@@ -1,10 +1,12 @@
 package br.com.trabalho.carrinhodecompras.io;
 
+import br.com.trabalho.carrinhodecompras.controller.ControllerProduto;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
 public class MenuAdministrador {
     private final MenuView menuView = new MenuView();
     private final LeitorDeOpcao leitorDeOpcao = new LeitorDeOpcao();
+    private final ControllerProduto controllerProduto = new ControllerProduto();
     private final Utils utils = new Utils();
 
     public MenuAdministrador () {}
@@ -23,19 +25,19 @@ public class MenuAdministrador {
 
             switch (opcao) {
                 case 1:
-                    System.out.print("Cadastrou o produto...");
+                    controllerProduto.cadastrarProduto();
                     break;
 
                 case 2:
-                    System.out.print("Consultou o produto...");
+                    controllerProduto.consultarProduto();
                     break;
 
                 case 3:
-                    System.out.print("Modificou a quantidade em estoque...");
+                    controllerProduto.editarProduto();
                     break;
 
                 case 4:
-                    System.out.print("Excluiu o produto...");
+                    controllerProduto.excluirProduto();
                     break;
 
                 case 0:
