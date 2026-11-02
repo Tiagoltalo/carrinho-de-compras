@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.ArrayList;
+import br.com.trabalho.carrinhodecompras.model.Produto;
 import br.com.trabalho.carrinhodecompras.model.Usuario;
 import br.com.trabalho.carrinhodecompras.exception.FalhaNoArquivoException;
 
@@ -52,7 +53,19 @@ public class EscritorDeArquivos {
     }
 
     public void escreverProdutos () {
+        List<String[]> listaDeProdutos = new ArrayList<>();
 
+        for (Produto produto : Produto.getProdutos()) {
+            String[] campos = {
+                String.valueOf(produto.getId()),
+                produto.getNome(),
+                produto.getPreco().toPlainString(),
+                String.valueOf(produto.getQuantidade())
+            };
+            listaDeProdutos.add(campos);
+        }
+
+        escreverArquivo("produtos", listaDeProdutos);
     }
 
     public void escreverUsuarios () {

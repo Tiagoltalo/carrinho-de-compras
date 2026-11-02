@@ -36,9 +36,35 @@ public class MenuView {
         ╠══════════════════════════════════════════════════╣
         ║  [ 1 ] Cadastrar Produto                         ║
         ║  [ 2 ] Consultar Produto                         ║
-        ║  [ 3 ] Modificar Quantidade em Estoque           ║
+        ║  [ 3 ] Editar Produto                            ║
         ║  [ 4 ] Excluir Produto                           ║
         ║  [ 0 ] Retornar ao Menu Principal                ║
+        ╚══════════════════════════════════════════════════╝
+        """);
+    }
+
+    public void imprimirMenuExcluirProduto () {
+        System.out.println("""
+        ╔══════════════════════════════════════════════════╗
+        ║                  Excluir Produto                 ║
+        ╠══════════════════════════════════════════════════╣
+        ║  Deseja realmente excluir este produto?          ║
+        ║                                                  ║
+        ║  [ 1 ] Sim                                       ║
+        ║  [ 2 ] Não                                       ║
+        ╚══════════════════════════════════════════════════╝
+        """);
+    }
+
+    public void imprimirMenuEditarProduto () {
+        System.out.println("""
+        ╔══════════════════════════════════════════════════╗
+        ║                  Editar Produto                  ║
+        ╠══════════════════════════════════════════════════╣
+        ║  [ 1 ] Editar Nome                               ║
+        ║  [ 2 ] Editar Quantidade em Estoque              ║
+        ║  [ 3 ] Editar Preço                              ║
+        ║  [ 0 ] Voltar ao Menu Administrador              ║
         ╚══════════════════════════════════════════════════╝
         """);
     }
