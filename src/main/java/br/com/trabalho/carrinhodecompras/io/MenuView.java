@@ -28,7 +28,6 @@ public class MenuView {
         """);
     }
 
-
     public void imprimirMenuAdministrador () {
         System.out.println("""
         ╔══════════════════════════════════════════════════╗
