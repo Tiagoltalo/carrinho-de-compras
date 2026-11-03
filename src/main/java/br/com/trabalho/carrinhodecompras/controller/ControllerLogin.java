@@ -49,7 +49,7 @@ public class ControllerLogin {
             utils.imprimirMensagem("\nLogin efetuado com sucesso.\nBem vindo, " + usuarioLogado.getNome() + ".\n");
             utils.pausar();
 
-            menuUsuario.menu();
+            menuUsuario.menu(usuarioLogado);
         }
     }
 }

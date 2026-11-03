@@ -5,6 +5,9 @@ import br.com.trabalho.carrinhodecompras.io.LeitorDeOpcao;
 import br.com.trabalho.carrinhodecompras.io.LeitorDeCarrinho;
 import br.com.trabalho.carrinhodecompras.model.Carrinho;
 import br.com.trabalho.carrinhodecompras.model.Produto;
+
+import java.math.BigDecimal;
+
 import br.com.trabalho.carrinhodecompras.exception.LeituraInvalidaException;
 import br.com.trabalho.carrinhodecompras.exception.ProdutoDuplicadoException;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
@@ -25,7 +28,7 @@ public class ControllerUsuario {
             for (Produto produto : Produto.getProdutos()) {
                 int id = produto.getId();
                 String nome = produto.getNome();
-                String preco = produto.getPrecoFormatado();
+                BigDecimal preco = produto.getPreco();
                 int quantidade = produto.getQuantidade();
     
                 usuarioView.imprimirProduto(id, nome, preco, quantidade);
@@ -38,30 +41,40 @@ public class ControllerUsuario {
 
             switch (opcao) {
                 case 1:
-                    int id = leitorDeCarrinho.lerId();
-                    int quantidade = leitorDeCarrinho.lerQuantidade();
-                    Produto produto = Produto.buscarPorId(Produto.getProdutos(), id);
+                    int id;
+                    Produto produto = null;
 
-                    if (quantidade > produto.getQuantidade()) {
-                        throw new LeituraInvalidaException(String.valueOf(quantidade), "quantidade", "o valor inserido é maior do que o contido no estoque.");
-                    }
+                    try {
+                        int idProduto = leitorDeCarrinho.lerId();
+                        int quantidade = leitorDeCarrinho.lerQuantidade();
+                        produto = Produto.buscarPorId(Produto.getProdutos(), idProduto);
+                        String nome = produto.getNome();
+                        BigDecimal preco = produto.getPreco();
+                        
+                        if (quantidade > produto.getQuantidade()) {
+                            throw new LeituraInvalidaException(String.valueOf(quantidade), "quantidade", "o valor inserido é maior do que o contido no estoque.");
+                        }
 
-                    if (produto != null) {
                         try {
-                            id = Carrinho.buscarUltimoId(Carrinho.getListaDeProdutosNoCarrinho());
+                            id = Carrinho.buscarUltimoId(Carrinho.getListaDeProdutosNoCarrinho()) + 1;
     
-                            Carrinho produtoNoCarrinho = new Carrinho(id, produto, quantidade);
+                            Carrinho produtoNoCarrinho = new Carrinho(id, idProduto, nome, preco, quantidade);
                             Carrinho.adicionarProdutoAOCarrinho(produtoNoCarrinho);
                             utils.imprimirMensagem("\nProduto adicionado ao carrinho");
                             
                         } catch (ProdutoDuplicadoException e) {
-                            utils.imprimirMensagem("O produto já foi adicionado ao carrinho.\n\n");
+                            utils.imprimirMensagem("\nO produto já foi adicionado ao carrinho.");
                         } catch (LeituraInvalidaException e) {
                             utils.imprimirMensagem(e.getMessage() + "\n\n");
                         }
-                    } else {
-                        utils.imprimirMensagem("\nO produto informado não existe");
+
+                    } catch (LeituraInvalidaException e) {
+                        utils.imprimirMensagem(e.getMessage() + "\n");
+                    } catch (NullPointerException e) {
+                        utils.imprimirMensagem("\nO produto informado não existe.");
                     }
+
+
 
                     utils.pausar();
                     break;
@@ -86,18 +99,18 @@ public class ControllerUsuario {
 
             for (Carrinho produtoNoCarrinho : Carrinho.getListaDeProdutosNoCarrinho()) {
                 int id = produtoNoCarrinho.getId();
-                String nome = produtoNoCarrinho.getProduto().getNome();
-                String preco = produtoNoCarrinho.getProduto().getPrecoFormatado();
+                String nome = produtoNoCarrinho.getNome();
+                BigDecimal preco = produtoNoCarrinho.getPreco();
                 int quantidade = produtoNoCarrinho.getQuantidade();
 
-                subtotal += produtoNoCarrinho.getProduto().getPreco().doubleValue() * quantidade;
+                subtotal += produtoNoCarrinho.getPreco().doubleValue() * quantidade;
     
                 usuarioView.imprimirProduto(id, nome, preco, quantidade);
             }
     
             utils.imprimirMensagem("══════════════════════════════════════\n\n");
             utils.imprimirMensagem("Subtotal: R$ " + subtotal + "\n\n");
-            utils.imprimirMensagem("1: Cartão de Débito | 2: Cartão de Crédito | 3: Pix | 0: retornar ao menu\n\n");
+            utils.imprimirMensagem("1: Cartão de Débito | 2: Cartão de Crédito | 3: Pix | 4: Excluir Produto do Carrinho | 0: retornar ao menu\n\n");
 
             opcao = leitorDeOpcao.lerOpcao();
 
@@ -114,6 +127,27 @@ public class ControllerUsuario {
 
                 case 3:
                     utils.imprimirMensagem("Pagou com Pix...");
+                    utils.pausar();
+                    break;
+
+                case 4:
+                    int id = leitorDeCarrinho.lerId();
+                    boolean produtoEncontrado = false;
+
+                    for (Carrinho produtoNoCarrinho : Carrinho.getListaDeProdutosNoCarrinho()) {
+                        if (produtoNoCarrinho.getId() == id) {
+                            produtoEncontrado = true;
+                            break;
+                        }
+                    }
+
+                    if (produtoEncontrado) {
+                        utils.imprimirMensagem("\nProduto excluido do carrinho.");
+                        Carrinho.getListaDeProdutosNoCarrinho().remove(Carrinho.buscarPorId(Carrinho.getListaDeProdutosNoCarrinho(), id));
+                    } else {
+                        utils.imprimirMensagem("\nO produto informado não está no carrinho.");
+                    }
+                    
                     utils.pausar();
                     break;
 

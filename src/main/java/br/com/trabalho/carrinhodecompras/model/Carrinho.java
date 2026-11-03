@@ -2,25 +2,29 @@ package br.com.trabalho.carrinhodecompras.model;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.math.BigDecimal;
 import br.com.trabalho.carrinhodecompras.exception.ProdutoDuplicadoException;
 
 public class Carrinho {
     private static List<Carrinho> listaDeProdutosNoCarrinho = new ArrayList<>();
+    private static List<Carrinho> listaDeProdutosComprados = new ArrayList<>();
     private int id;
-    private Produto produto;
+    private int idProduto;
+    private String nome;
+    private BigDecimal preco;
     private int quantidade;
 
-    public Carrinho (int id, Produto produto, int quantidade) {
+    public Carrinho (int id, int idProduto, String nome, BigDecimal preco, int quantidade) {
         this.id = id;
-        this.produto = produto;
+        this.idProduto = idProduto;
+        this.nome = nome;
+        this.preco = preco;
         this.quantidade = quantidade;
     }
 
     public static void adicionarProdutoAOCarrinho (Carrinho produtoNoCarrinho) {
-        Produto produto = produtoNoCarrinho.getProduto();
-
-        if (buscarPorId(listaDeProdutosNoCarrinho, produto.getId()) != null) {
-            throw new ProdutoDuplicadoException(produto.getId());
+        if (buscarPorId(listaDeProdutosNoCarrinho, produtoNoCarrinho.getIdProduto()) != null) {
+            throw new ProdutoDuplicadoException(produtoNoCarrinho.getIdProduto());
         }
 
         listaDeProdutosNoCarrinho.add(produtoNoCarrinho);
@@ -38,12 +42,10 @@ public class Carrinho {
         return ultimoId;
     }
 
-    public static Produto buscarPorId (List<Carrinho> produtosNoCarrinho, int id) {
+    public static Carrinho buscarPorId (List<Carrinho> produtosNoCarrinho, int id) {
         for (Carrinho produtoNoCarrinho : produtosNoCarrinho) {
-            Produto produto = produtoNoCarrinho.getProduto();
-
-            if (produto.getId() == id) {
-                return produto;
+            if (produtoNoCarrinho.getIdProduto() == id) {
+                return produtoNoCarrinho;
             }
         }
 
@@ -52,9 +54,15 @@ public class Carrinho {
 
     public int getId () { return this.id; }
 
-    public Produto getProduto () { return this.produto; }
+    public int getIdProduto () { return this.idProduto; }
+
+    public String getNome () { return this.nome; }
+
+    public BigDecimal getPreco () { return this.preco; }
 
     public int getQuantidade () {return this.quantidade; }
 
     public static List<Carrinho> getListaDeProdutosNoCarrinho () { return listaDeProdutosNoCarrinho; }
+
+    public static List<Carrinho> getListaDeProdutosComprados () { return listaDeProdutosComprados; }
 }

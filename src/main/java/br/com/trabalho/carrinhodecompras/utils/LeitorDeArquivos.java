@@ -2,10 +2,13 @@ package br.com.trabalho.carrinhodecompras.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.ArrayList;
+
+import br.com.trabalho.carrinhodecompras.model.Carrinho;
 import br.com.trabalho.carrinhodecompras.model.Produto;
 import br.com.trabalho.carrinhodecompras.model.ProdutoComum;
 import br.com.trabalho.carrinhodecompras.model.Usuario;
@@ -16,9 +19,8 @@ import br.com.trabalho.carrinhodecompras.exception.ProdutoDuplicadoException;
 public class LeitorDeArquivos {
     private final Utils utils = new Utils();
     private final int CAMPOS_DE_USUARIOS = 3;
-    private final int CAMPOS_DE_PRODUTOS = 4; // id;nome;preco;quantidade. Rever o número de campos das constantes seguintes.
-    private final int CAMPOS_DE_COMPRAS = 1;
-    private final int CAMPOS_DE_CARRINHO = 1;
+    private final int CAMPOS_DE_PRODUTOS = 4;
+    private final int CAMPOS_DE_CARRINHO = 5;
 
     private List<String[]> lerArquivo (String nome, int numeroDeCampos) {
         Path path = Path.of("data", nome + ".txt");
@@ -51,9 +53,8 @@ public class LeitorDeArquivos {
         }
     }
 
-    // Alterar a convenção de nomes de arquivos, como carrinho_nomeusuario.txt.
-    public void lerProdutos (String nome) {
-        List<String[]> produtos = lerArquivo(nome, CAMPOS_DE_PRODUTOS);
+    public void lerProdutos () {
+        List<String[]> produtos = lerArquivo("produtos", CAMPOS_DE_PRODUTOS);
         boolean houveLinhaIgnorada = false;
 
         for (String[] dadosProduto : produtos) {
@@ -67,7 +68,7 @@ public class LeitorDeArquivos {
                 Produto produto = new ProdutoComum(idProduto, nomeProduto, precoProduto, quantidadeProduto);
                 Produto.adicionarProdutoALista(produto);
             } catch (LeituraInvalidaException | ProdutoDuplicadoException e) {
-                utils.imprimirMensagem("Aviso: linha ignorada em " + nome + ".txt (" + String.join(";", dadosProduto) + "): " + e.getMessage() + "\n");
+                utils.imprimirMensagem("Aviso: linha ignorada em produtos.txt (" + String.join(";", dadosProduto) + "): " + e.getMessage() + "\n");
                 houveLinhaIgnorada = true;
             }
         }
@@ -77,8 +78,8 @@ public class LeitorDeArquivos {
         }
     }
 
-    public void lerUsuarios (String nome) {
-        List<String[]> usuarios = lerArquivo(nome, CAMPOS_DE_USUARIOS);
+    public void lerUsuarios () {
+        List<String[]> usuarios = lerArquivo("usuarios", CAMPOS_DE_USUARIOS);
 
         for (String[] dadosUsuario : usuarios) {
             try {
@@ -95,15 +96,26 @@ public class LeitorDeArquivos {
     }
 
     public void lerCarrinho (String nome) {
-        List<String[]> itens = lerArquivo(nome, CAMPOS_DE_CARRINHO);
+        List<String[]> itens = lerArquivo("carrinho_" + nome, CAMPOS_DE_CARRINHO);
 
         for (String[] item : itens) {
-            
+            try {
+                int idCarrinho = Integer.parseInt(item[0]);
+                int idProduto = Integer.parseInt(item[1]);
+                String nomeProduto = item[2];
+                BigDecimal precoProduto = new BigDecimal(item[3]);
+                int quantidade = Integer.parseInt(item[4]);
+
+                Carrinho produtoNoCarrinho = new Carrinho(idCarrinho, idProduto, nomeProduto, precoProduto, quantidade);
+                Carrinho.adicionarProdutoAOCarrinho(produtoNoCarrinho);
+            } catch (NumberFormatException e) {
+                continue;
+            }
         }
     }
 
     public void lerCompras (String nome) {
-        List<String[]> compras = lerArquivo(nome, CAMPOS_DE_COMPRAS);
+        List<String[]> compras = lerArquivo(nome, CAMPOS_DE_CARRINHO);
 
         for (String[] compra : compras) {
             
