@@ -29,6 +29,32 @@ public class MenuView {
     }
 
 
+    public void imprimirMenuPagamento () {
+        System.out.println("""
+        ╔══════════════════════════════════════════════════╗
+        ║                Forma de Pagamento                ║
+        ╠══════════════════════════════════════════════════╣
+        ║  [ 1 ] Cartão de Crédito (sem desconto)          ║
+        ║  [ 2 ] Cartão de Débito (10% de desconto)        ║
+        ║  [ 3 ] Pix (5% de desconto)                      ║
+        ║  [ 0 ] Voltar                                    ║
+        ╚══════════════════════════════════════════════════╝
+        """);
+    }
+
+    public void imprimirMenuConfirmarPagamento () {
+        System.out.println("""
+        ╔══════════════════════════════════════════════════╗
+        ║               Confirmar Pagamento                ║
+        ╠══════════════════════════════════════════════════╣
+        ║  Deseja confirmar o pagamento?                   ║
+        ║                                                  ║
+        ║  [ 1 ] Sim                                       ║
+        ║  [ 2 ] Não                                       ║
+        ╚══════════════════════════════════════════════════╝
+        """);
+    }
+
     public void imprimirMenuAdministrador () {
         System.out.println("""
         ╔══════════════════════════════════════════════════╗
