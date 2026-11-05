@@ -87,7 +87,7 @@ public abstract class Produto {
 
     /** Preço formatado em reais, ex: "R$ 19,90". */
     public String getPrecoFormatado () {
-        return NumberFormat.getCurrencyInstance(Locale.of("pt", "BR")).format(preco);
+        return NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR")).format(preco);
     }
 
     @Override

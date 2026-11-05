@@ -1,19 +1,18 @@
 package br.com.trabalho.carrinhodecompras.controller;
 
+import java.math.BigDecimal;
 import br.com.trabalho.carrinhodecompras.io.UsuarioView;
 import br.com.trabalho.carrinhodecompras.io.LeitorDeOpcao;
 import br.com.trabalho.carrinhodecompras.io.LeitorDeCarrinho;
 import br.com.trabalho.carrinhodecompras.model.Carrinho;
 import br.com.trabalho.carrinhodecompras.model.Produto;
-
-import java.math.BigDecimal;
-
 import br.com.trabalho.carrinhodecompras.exception.LeituraInvalidaException;
 import br.com.trabalho.carrinhodecompras.exception.ProdutoDuplicadoException;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
 public class ControllerUsuario {
     private final UsuarioView usuarioView = new UsuarioView();
+    private final ControllerPagamento controllerPagamento = new ControllerPagamento();
     private final LeitorDeOpcao leitorDeOpcao = new LeitorDeOpcao();
     private final LeitorDeCarrinho leitorDeCarrinho = new LeitorDeCarrinho();
     private final Utils utils = new Utils();
@@ -110,27 +109,17 @@ public class ControllerUsuario {
     
             utils.imprimirMensagem("══════════════════════════════════════\n\n");
             utils.imprimirMensagem("Subtotal: R$ " + subtotal + "\n\n");
-            utils.imprimirMensagem("1: Cartão de Débito | 2: Cartão de Crédito | 3: Pix | 4: Excluir Produto do Carrinho | 0: retornar ao menu\n\n");
+            utils.imprimirMensagem("1: Área de Pagamento | 2: Excluir Produto do Carrinho | 0: retornar ao menu\n\n");
 
             opcao = leitorDeOpcao.lerOpcao();
 
             switch (opcao) {
                 case 1:
-                    utils.imprimirMensagem("Pagou com Cartão de Débito...");
+                    controllerPagamento.realizarPagamento(BigDecimal.valueOf(subtotal));
                     utils.pausar();
                     break;
 
                 case 2:
-                    utils.imprimirMensagem("Pagou com Cartão de Crédito...");
-                    utils.pausar();
-                    break;
-
-                case 3:
-                    utils.imprimirMensagem("Pagou com Pix...");
-                    utils.pausar();
-                    break;
-
-                case 4:
                     int id = leitorDeCarrinho.lerId();
                     boolean produtoEncontrado = false;
 
@@ -156,6 +145,8 @@ public class ControllerUsuario {
                     break;
 
                 default:
+                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 2.\n");
+                    utils.pausar();
                     break;
             }
         }

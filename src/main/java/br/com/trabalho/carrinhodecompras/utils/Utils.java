@@ -1,6 +1,9 @@
 package br.com.trabalho.carrinhodecompras.utils;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Utils {
@@ -17,6 +20,11 @@ public class Utils {
         String texto = scanner.nextLine();
 
         return texto;
+    }
+
+    /** Formata um valor em reais, ex: "R$ 19,90". */
+    public String formatarMoeda (BigDecimal valor) {
+        return NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR")).format(valor);
     }
 
     public void imprimirMensagem (String mensagem) {
