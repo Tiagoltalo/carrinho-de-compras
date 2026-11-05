@@ -20,7 +20,7 @@ public class Usuario {
     }
 
     public static int buscarUltimoId (List<Usuario> usuarios) {
-        int ultimoId = 1;
+        int ultimoId = 0;
 
         for (Usuario usuario : usuarios) {
             if (ultimoId < usuario.getId()) {

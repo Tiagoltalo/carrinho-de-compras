@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.ArrayList;
+import br.com.trabalho.carrinhodecompras.model.Carrinho;
 import br.com.trabalho.carrinhodecompras.model.Produto;
 import br.com.trabalho.carrinhodecompras.model.Usuario;
 import br.com.trabalho.carrinhodecompras.exception.FalhaNoArquivoException;
@@ -62,6 +63,7 @@ public class EscritorDeArquivos {
                 produto.getPreco().toPlainString(),
                 String.valueOf(produto.getQuantidade())
             };
+
             listaDeProdutos.add(campos);
         }
 
@@ -72,15 +74,34 @@ public class EscritorDeArquivos {
         List<String[]> listaDeUsuarios = new ArrayList<>();
 
         for (Usuario usuario : Usuario.getUsuarios()) {
-            String[] campos = {String.valueOf(usuario.getId()), usuario.getNome(), usuario.getSenha()};
+            String[] campos = {
+                String.valueOf(usuario.getId()), 
+                usuario.getNome(), 
+                usuario.getSenha()
+            };
+
             listaDeUsuarios.add(campos);
         }
 
         escreverArquivo("usuarios", listaDeUsuarios);
     }
 
-    public void escreverCarrinho () {
+    public void escreverCarrinho (String nome) {
+        List<String[]> listaDeProdutosNoCarrinho = new ArrayList<>();
 
+        for (Carrinho produtoNoCarrinho : Carrinho.getListaDeProdutosNoCarrinho()) {
+            String[] campos = {
+                String.valueOf(produtoNoCarrinho.getId()),
+                String.valueOf(produtoNoCarrinho.getIdProduto()),
+                produtoNoCarrinho.getNome(),
+                String.valueOf(produtoNoCarrinho.getPreco()),
+                String.valueOf(produtoNoCarrinho.getQuantidade())
+            };
+
+            listaDeProdutosNoCarrinho.add(campos);
+        }
+
+        escreverArquivo("carrinho_" + nome, listaDeProdutosNoCarrinho);
     }
 
     public void escreverCompras () {

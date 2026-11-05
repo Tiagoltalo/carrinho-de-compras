@@ -41,7 +41,6 @@ public class MenuAdministrador {
                     break;
 
                 case 0:
-                    System.out.print("Retornou ao menu principal...");
                     looping = false;
                     break;
             

@@ -11,7 +11,7 @@ public class MenuView {
         ║  [ 0 ] Sair                          ║
         ╚══════════════════════════════════════╝
 
-        Obs: Digite o número correspondente à opção para acessá-la.
+        Obs: Digite o número correspondente à opção.
         """);
     }
     

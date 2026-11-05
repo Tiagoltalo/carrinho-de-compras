@@ -62,8 +62,8 @@ public class ControllerPagamento {
 
         while (true) {
             utils.limparTerminal();
-            utils.imprimirMensagem("Valor da compra: " + utils.formatarMoeda(valorDaCompra) + "\n\n");
             menuView.imprimirMenuPagamento();
+            utils.imprimirMensagem("Valor da compra: " + utils.formatarMoeda(valorDaCompra) + "\n\n");
 
             int opcao = leitorDeOpcao.lerOpcao();
             utils.imprimirMensagem("\n");
