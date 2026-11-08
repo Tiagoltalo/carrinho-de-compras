@@ -119,11 +119,6 @@ public class EscritorDeArquivos {
         escreverArquivo("carrinho_" + nome, listaDeProdutosNoCarrinho);
     }
 
-    /**
-     * Grava o histórico de cada cliente em data/historico-compra-NOME.txt (uma linha por item comprado):
-     * idCompra;dataHora;formaDePagamento;valorDaCompra;valorPago;codigoDeAutorizacao;idProduto;nomeDoProduto;precoUnitario;quantidade
-     * Clientes sem nenhuma compra não ganham arquivo.
-     */
     public void escreverCompras () {
         for (Map.Entry<String, List<Compra>> historico : Compra.getHistoricoPorCliente().entrySet()) {
             if (historico.getValue().isEmpty()) {
@@ -135,12 +130,11 @@ public class EscritorDeArquivos {
             for (Compra compra : historico.getValue()) {
                 for (ItemComprado item : compra.getItens()) {
                     String[] campos = {
-                        compra.getId(),
+                        String.valueOf(compra.getId()),
                         compra.getDataHora().toString(),
                         compra.getFormaDePagamento().replace(";", ","),
                         compra.getValorDaCompra().toPlainString(),
                         compra.getValorPago().toPlainString(),
-                        compra.getCodigoDeAutorizacao().replace(";", ","),
                         String.valueOf(item.idProduto()),
                         item.nome().replace(";", ","), // o ";" separa os campos do arquivo
                         item.precoUnitario().toPlainString(),

@@ -13,8 +13,7 @@ public class CartaoDeCredito extends CartaoDePagamento {
     }
 
     @Override
-    protected String processarPagamento (BigDecimal valorFinal) {
+    protected void processarPagamento (BigDecimal valorFinal) {
         // Simulação: a operadora aprova a compra no crédito.
-        return gerarCodigoDeAutorizacao("CRD");
     }
 }

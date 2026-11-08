@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.UUID;
 import br.com.trabalho.carrinhodecompras.exception.PagamentoRecusadoException;
 
 public abstract class FormaDePagamento {
@@ -16,7 +15,7 @@ public abstract class FormaDePagamento {
 
     public abstract BigDecimal calcularValorFinal (BigDecimal valorDaCompra);
 
-    protected abstract String processarPagamento (BigDecimal valorFinal);
+    protected abstract void processarPagamento (BigDecimal valorFinal);
 
     public final ComprovanteDePagamento pagar (BigDecimal valorDaCompra) {
         if (valorDaCompra == null || valorDaCompra.signum() <= 0) {
@@ -24,9 +23,9 @@ public abstract class FormaDePagamento {
         }
 
         BigDecimal valorFinal = calcularValorFinal(valorDaCompra);
-        String codigoDeAutorizacao = processarPagamento(valorFinal);
+        processarPagamento(valorFinal);
 
-        return new ComprovanteDePagamento(nome, valorDaCompra, valorFinal, codigoDeAutorizacao, LocalDateTime.now());
+        return new ComprovanteDePagamento(nome, valorDaCompra, valorFinal, LocalDateTime.now());
     }
 
     public Optional<String> getInstrucoesDePagamento () {
@@ -36,10 +35,6 @@ public abstract class FormaDePagamento {
     protected static BigDecimal aplicarDesconto (BigDecimal valor, int percentual) {
         return valor.multiply(BigDecimal.valueOf(100 - percentual))
                     .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-    }
-
-    protected static String gerarCodigoDeAutorizacao (String prefixo) {
-        return prefixo + "-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 
     public String getNome () { return nome; }

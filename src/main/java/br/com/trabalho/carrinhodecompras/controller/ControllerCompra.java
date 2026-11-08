@@ -46,7 +46,7 @@ public class ControllerCompra {
     /** Resumo final: produtos, quantidades, preços unitários, subtotal, desconto e valor final. */
     private void imprimirResumo (Compra compra) {
         utils.limparTerminal();
-        utils.imprimirMensagem("Compra finalizada! Código da compra: " + compra.getId() + "\n\n");
+        utils.imprimirMensagem("Compra finalizada com sucesso! Compra nº " + compra.getId() + "\n\n");
 
         for (ItemComprado item : compra.getItens()) {
             utils.imprimirMensagem(item.quantidade() + "x " + item.nome() + " - " + utils.formatarMoeda(item.precoUnitario())
@@ -70,6 +70,10 @@ public class ControllerCompra {
 
             if (produto == null) {
                 throw new FinalizacaoDeCompraException("o produto \"" + item.getNome() + "\" não existe mais. Remova-o do carrinho.");
+            }
+
+            if (produto.getQuantidade() == 0) {
+                throw new FinalizacaoDeCompraException("o produto \"" + item.getNome() + "\" está esgotado. Remova-o do carrinho.");
             }
 
             if (item.getQuantidade() <= 0 || item.getQuantidade() > produto.getQuantidade()) {

@@ -27,7 +27,7 @@ public class LeitorDeArquivos {
     private final int CAMPOS_DE_USUARIOS = 3;
     private final int CAMPOS_DE_PRODUTOS = 4;
     private final int CAMPOS_DE_CARRINHO = 5;
-    private final int CAMPOS_DE_COMPRAS = 10;
+    private final int CAMPOS_DE_COMPRAS = 9;
 
     private List<String[]> lerArquivo (String nome, int numeroDeCampos) {
         Path path = Path.of("data", nome + ".txt");
@@ -145,11 +145,11 @@ public class LeitorDeArquivos {
                 List<ItemComprado> itens = new ArrayList<>();
 
                 for (String[] linha : entrada.getValue()) {
-                    itens.add(new ItemComprado(Integer.parseInt(linha[6]), linha[7], new BigDecimal(linha[8]), Integer.parseInt(linha[9])));
+                    itens.add(new ItemComprado(Integer.parseInt(linha[5]), linha[6], new BigDecimal(linha[7]), Integer.parseInt(linha[8])));
                 }
 
-                Compra compra = new Compra(entrada.getKey(), nome, itens, primeira[2], new BigDecimal(primeira[3]),
-                        new BigDecimal(primeira[4]), primeira[5], LocalDateTime.parse(primeira[1]));
+                Compra compra = new Compra(Integer.parseInt(entrada.getKey()), nome, itens, primeira[2], new BigDecimal(primeira[3]),
+                        new BigDecimal(primeira[4]), LocalDateTime.parse(primeira[1]));
 
                 Compra.adicionarCompraAoHistorico(compra);
             } catch (NumberFormatException | DateTimeParseException e) {

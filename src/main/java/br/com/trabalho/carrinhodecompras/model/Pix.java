@@ -18,8 +18,7 @@ public class Pix extends FormaDePagamento {
     }
 
     @Override
-    protected String processarPagamento (BigDecimal valorFinal) {
-        return gerarCodigoDeAutorizacao("PIX");
+    protected void processarPagamento (BigDecimal valorFinal) {
     }
 
     @Override

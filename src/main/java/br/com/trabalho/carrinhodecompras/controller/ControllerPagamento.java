@@ -19,25 +19,12 @@ public class ControllerPagamento {
     private final MenuView menuView = new MenuView();
     private final Utils utils = new Utils();
 
-    /**
-     * Cada opção do menu aponta para o jeito de criar a sua forma de pagamento
-     * (ler os dados e montar o objeto). É uma consulta em um mapa, então não há
-     * if/switch para identificar o tipo. Para adicionar uma nova forma de
-     * pagamento, basta uma linha aqui (mais a classe e o item no menu).
-     */
     private final Map<Integer, Supplier<FormaDePagamento>> formasDePagamento = Map.of(
         1, leitorDePagamento::lerCartaoDeCredito,
         2, leitorDePagamento::lerCartaoDeDebito,
-        3, Pix::new // sem digitação: o sistema gera a chave
+        3, Pix::new 
     );
 
-    /**
-     * Conduz o usuário pelo pagamento de uma compra.
-     *
-     * @param valorDaCompra valor total da compra, sem desconto (precisa ser maior que zero)
-     * @return o comprovante se o pagamento foi aprovado; vazio se o usuário desistiu
-     *         (opção "Voltar" ou não confirmou) ou se o pagamento foi recusado e ele não tentou de novo
-     */
     public Optional<ComprovanteDePagamento> realizarPagamento (BigDecimal valorDaCompra) {
         if (valorDaCompra == null || valorDaCompra.signum() <= 0) {
             throw new IllegalArgumentException("O valor da compra deve ser maior que zero.");
@@ -84,7 +71,6 @@ public class ControllerPagamento {
         utils.imprimirMensagem("Valor da compra: " + utils.formatarMoeda(valorDaCompra) + "\n");
         utils.imprimirMensagem("Valor a pagar: " + utils.formatarMoeda(valorFinal) + "\n");
 
-        // Polimorfismo: cada forma diz o que o usuário precisa ver (o Pix mostra a chave; os cartões, nada).
         formaDePagamento.getInstrucoesDePagamento().ifPresent(instrucoes -> utils.imprimirMensagem("\n" + instrucoes + "\n"));
         utils.imprimirMensagem("\n");
 
@@ -95,7 +81,7 @@ public class ControllerPagamento {
         }
 
         try {
-            ComprovanteDePagamento comprovante = formaDePagamento.pagar(valorDaCompra); // polimorfismo
+            ComprovanteDePagamento comprovante = formaDePagamento.pagar(valorDaCompra);
             imprimirComprovante(comprovante);
             utils.pausar();
             return Optional.of(comprovante);
@@ -107,15 +93,13 @@ public class ControllerPagamento {
     }
 
     private void imprimirComprovante (ComprovanteDePagamento comprovante) {
-        utils.imprimirMensagem("Pagamento aprovado!\n\n");
+        utils.imprimirMensagem("\nPagamento aprovado!\n\n");
         utils.imprimirMensagem("Forma de pagamento: " + comprovante.formaDePagamento() + "\n");
         utils.imprimirMensagem("Valor da compra: " + utils.formatarMoeda(comprovante.valorDaCompra()) + "\n");
         utils.imprimirMensagem("Desconto: " + utils.formatarMoeda(comprovante.desconto()) + "\n");
         utils.imprimirMensagem("Valor pago: " + utils.formatarMoeda(comprovante.valorPago()) + "\n");
-        utils.imprimirMensagem("Código de autorização: " + comprovante.codigoDeAutorizacao() + "\n");
     }
 
-    /** Pergunta "1 - Sim / 2 - Não" até receber uma resposta válida. */
     private boolean confirmarPagamento () {
         while (true) {
             menuView.imprimirMenuConfirmarPagamento();

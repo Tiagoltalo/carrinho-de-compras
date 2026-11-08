@@ -5,6 +5,7 @@ import br.com.trabalho.carrinhodecompras.exception.ProdutoDuplicadoException;
 import br.com.trabalho.carrinhodecompras.io.LeitorDeOpcao;
 import br.com.trabalho.carrinhodecompras.io.LeitorDeProduto;
 import br.com.trabalho.carrinhodecompras.io.MenuView;
+import br.com.trabalho.carrinhodecompras.io.UsuarioView;
 import br.com.trabalho.carrinhodecompras.model.Login;
 import br.com.trabalho.carrinhodecompras.model.Produto;
 import br.com.trabalho.carrinhodecompras.model.ProdutoComum;
@@ -16,6 +17,7 @@ public class ControllerProduto {
     private final LeitorDeProduto leitorDeProduto = new LeitorDeProduto();
     private final LeitorDeOpcao leitorDeOpcao = new LeitorDeOpcao();
     private final MenuView menuView = new MenuView();
+    private final UsuarioView usuarioView = new UsuarioView();
     private final Login login = new Login();
     private final Utils utils = new Utils();
 
@@ -47,7 +49,7 @@ public class ControllerProduto {
 
         if (produto != null) {
             utils.imprimirMensagem("\n");
-            imprimirDetalhes(produto);
+            usuarioView.imprimirProduto(produto);
         }
 
         utils.pausar();
@@ -68,7 +70,7 @@ public class ControllerProduto {
         while (looping) {
             utils.limparTerminal();
             menuView.imprimirMenuEditarProduto();
-            imprimirDetalhes(produto);
+            usuarioView.imprimirProduto(produto);
 
             int opcao = leitorDeOpcao.lerOpcao();
             utils.imprimirMensagem("\n");
@@ -140,15 +142,6 @@ public class ControllerProduto {
         return produto;
     }
 
-    private void imprimirDetalhes (Produto produto) {
-        utils.imprimirMensagem("===== Informações do produto =====" + "\n");
-        utils.imprimirMensagem("ID: " + produto.getId() + "\n");
-        utils.imprimirMensagem("Nome: " + produto.getNome() + "\n");
-        utils.imprimirMensagem("Preço: " + produto.getPrecoFormatado() + "\n");
-        utils.imprimirMensagem("Quantidade em estoque: " + produto.getQuantidade() + "\n");
-        utils.imprimirMensagem("==================================" + "\n\n");
-    }
-
     private boolean confirmarExclusao () {
         while (true) {
             utils.imprimirMensagem("\n");
@@ -172,7 +165,7 @@ public class ControllerProduto {
             }
 
             if (tentativa < TENTATIVAS_DE_SENHA) {
-                utils.imprimirMensagem("Senha incorreta. Tentativas restantes: " + (TENTATIVAS_DE_SENHA - tentativa) + ".\n");
+                utils.imprimirMensagem("Senha incorreta, tente novamente.");
             }
         }
 

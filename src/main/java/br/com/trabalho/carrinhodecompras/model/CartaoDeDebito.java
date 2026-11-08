@@ -15,8 +15,7 @@ public class CartaoDeDebito extends CartaoDePagamento {
     }
 
     @Override
-    protected String processarPagamento (BigDecimal valorFinal) {
+    protected void processarPagamento (BigDecimal valorFinal) {
         // Simulação: o valor é debitado da conta do cliente.
-        return gerarCodigoDeAutorizacao("DEB");
     }
 }

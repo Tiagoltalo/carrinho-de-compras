@@ -39,10 +39,14 @@ public class MenuUsuario {
                     break;
 
                 case 2:
-                    controllerUsuario.acessarCarrinho(usuario);
+                    controllerUsuario.adicionarProdutosAoCarrinho();
                     break;
 
                 case 3:
+                    controllerUsuario.acessarCarrinho(usuario);
+                    break;
+
+                case 4:
                     controllerUsuario.imprimirHistoricoDeCompras(usuario);
                     break;
 
@@ -53,7 +57,7 @@ public class MenuUsuario {
                     break;
             
                 default:
-                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 3.\n");
+                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 4.\n");
                     utils.pausar();
                     break;
             }

@@ -7,7 +7,6 @@ public record ComprovanteDePagamento(
         String formaDePagamento,
         BigDecimal valorDaCompra,
         BigDecimal valorPago,
-        String codigoDeAutorizacao,
         LocalDateTime dataHora) {
 
     public BigDecimal desconto () {
