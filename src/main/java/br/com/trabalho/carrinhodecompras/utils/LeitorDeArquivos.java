@@ -5,10 +5,16 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 
 import br.com.trabalho.carrinhodecompras.model.Carrinho;
+import br.com.trabalho.carrinhodecompras.model.Compra;
+import br.com.trabalho.carrinhodecompras.model.ItemComprado;
 import br.com.trabalho.carrinhodecompras.model.Produto;
 import br.com.trabalho.carrinhodecompras.model.ProdutoComum;
 import br.com.trabalho.carrinhodecompras.model.Usuario;
@@ -21,6 +27,7 @@ public class LeitorDeArquivos {
     private final int CAMPOS_DE_USUARIOS = 3;
     private final int CAMPOS_DE_PRODUTOS = 4;
     private final int CAMPOS_DE_CARRINHO = 5;
+    private final int CAMPOS_DE_COMPRAS = 10;
 
     private List<String[]> lerArquivo (String nome, int numeroDeCampos) {
         Path path = Path.of("data", nome + ".txt");
@@ -114,11 +121,46 @@ public class LeitorDeArquivos {
         }
     }
 
+    /**
+     * Lê o histórico do cliente (data/historico-compra-NOME.txt). Cada linha é um item; as linhas
+     * com o mesmo idCompra formam uma compra. Só lê uma vez por cliente (logar de novo não duplica).
+     * Linhas inválidas são ignoradas com aviso.
+     */
     public void lerCompras (String nome) {
-        List<String[]> compras = lerArquivo(nome, CAMPOS_DE_CARRINHO);
+        if (!Compra.marcarComoCarregado(nome)) {
+            return;
+        }
 
-        for (String[] compra : compras) {
-            
+        List<String[]> linhas = lerArquivo("historico-compra-" + nome, CAMPOS_DE_COMPRAS);
+        Map<String, List<String[]>> linhasPorCompra = new LinkedHashMap<>(); // mantém a ordem do arquivo
+        boolean houveLinhaIgnorada = false;
+
+        for (String[] linha : linhas) {
+            linhasPorCompra.computeIfAbsent(linha[0], id -> new ArrayList<>()).add(linha);
+        }
+
+        for (Map.Entry<String, List<String[]>> entrada : linhasPorCompra.entrySet()) {
+            try {
+                String[] primeira = entrada.getValue().get(0);
+                List<ItemComprado> itens = new ArrayList<>();
+
+                for (String[] linha : entrada.getValue()) {
+                    itens.add(new ItemComprado(Integer.parseInt(linha[6]), linha[7], new BigDecimal(linha[8]), Integer.parseInt(linha[9])));
+                }
+
+                Compra compra = new Compra(entrada.getKey(), nome, itens, primeira[2], new BigDecimal(primeira[3]),
+                        new BigDecimal(primeira[4]), primeira[5], LocalDateTime.parse(primeira[1]));
+
+                Compra.adicionarCompraAoHistorico(compra);
+            } catch (NumberFormatException | DateTimeParseException e) {
+                utils.imprimirMensagem("Aviso: compra " + entrada.getKey() + " ignorada no histórico de " + nome + " (dados inválidos).\n");
+                houveLinhaIgnorada = true;
+            }
+        }
+
+        if (houveLinhaIgnorada) {
+            utils.pausar();
         }
     }
+
 }

@@ -41,6 +41,7 @@ public class MenuPrincipal {
 
                 case 0:
                     escritorDeArquivos.escreverUsuarios();
+                    escritorDeArquivos.escreverCompras(); 
                     escritorDeArquivos.escreverProdutos();
                     System.out.print("Saiu do programa...");
                     looping = false;

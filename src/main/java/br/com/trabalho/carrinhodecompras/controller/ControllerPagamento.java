@@ -13,23 +13,6 @@ import br.com.trabalho.carrinhodecompras.model.FormaDePagamento;
 import br.com.trabalho.carrinhodecompras.model.Pix;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
-/**
- * Ponto de entrada do pagamento para o resto do sistema (ex: o carrinho).
- *
- * Uso:
- * <pre>
- *     Optional&lt;ComprovanteDePagamento&gt; resultado = controllerPagamento.realizarPagamento(totalDoCarrinho);
- *
- *     if (resultado.isPresent()) {
- *         // pago: dar baixa no estoque, limpar o carrinho, guardar no histórico...
- *     }
- * </pre>
- *
- * Quem chama só informa o valor da compra: este controller mostra as formas de
- * pagamento, lê os dados, mostra o valor com desconto, pede confirmação e
- * processa. Ele trabalha apenas com o tipo abstrato {@link FormaDePagamento},
- * sem if/switch para saber se é crédito, débito ou Pix.
- */
 public class ControllerPagamento {
     private final LeitorDePagamento leitorDePagamento = new LeitorDePagamento();
     private final LeitorDeOpcao leitorDeOpcao = new LeitorDeOpcao();

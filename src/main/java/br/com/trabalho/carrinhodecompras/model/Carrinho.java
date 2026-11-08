@@ -52,6 +52,22 @@ public class Carrinho {
         return null;
     }
 
+    /** Esvazia o carrinho (usado ao finalizar a compra e quando o cliente sai). */
+    public static void limpar () {
+        listaDeProdutosNoCarrinho.clear();
+    }
+
+    /** Soma preço x quantidade de todos os itens, sem erro de arredondamento. */
+    public static BigDecimal calcularSubtotal () {
+        BigDecimal subtotal = BigDecimal.ZERO;
+
+        for (Carrinho produtoNoCarrinho : listaDeProdutosNoCarrinho) {
+            subtotal = subtotal.add(produtoNoCarrinho.getPreco().multiply(BigDecimal.valueOf(produtoNoCarrinho.getQuantidade())));
+        }
+
+        return subtotal;
+    }
+
     public int getId () { return this.id; }
 
     public int getIdProduto () { return this.idProduto; }
@@ -61,6 +77,14 @@ public class Carrinho {
     public BigDecimal getPreco () { return this.preco; }
 
     public int getQuantidade () {return this.quantidade; }
+
+    public void setQuantidade (int quantidade) {
+        if (quantidade <= 0) {
+            throw new IllegalArgumentException("A quantidade deve ser maior que zero.");
+        }
+
+        this.quantidade = quantidade;
+    }
 
     public static List<Carrinho> getListaDeProdutosNoCarrinho () { return listaDeProdutosNoCarrinho; }
 

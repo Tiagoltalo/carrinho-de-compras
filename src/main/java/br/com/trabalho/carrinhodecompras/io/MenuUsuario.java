@@ -1,6 +1,7 @@
 package br.com.trabalho.carrinhodecompras.io;
 
 import br.com.trabalho.carrinhodecompras.controller.ControllerUsuario;
+import br.com.trabalho.carrinhodecompras.model.Carrinho;
 import br.com.trabalho.carrinhodecompras.model.Usuario;
 import br.com.trabalho.carrinhodecompras.utils.LeitorDeArquivos;
 import br.com.trabalho.carrinhodecompras.utils.EscritorDeArquivos;
@@ -20,8 +21,9 @@ public class MenuUsuario {
         boolean looping = true;
         int opcao;
 
+        Carrinho.limpar(); 
         leitorDeArquivos.lerCarrinho(usuario.getNome());
-        // leitorDeArquivos.lerCompras(usuario.getNome());
+        leitorDeArquivos.lerCompras(usuario.getNome());
 
         while (looping) {
             utils.limparTerminal();
@@ -37,15 +39,16 @@ public class MenuUsuario {
                     break;
 
                 case 2:
-                    controllerUsuario.acessarCarrinho();
+                    controllerUsuario.acessarCarrinho(usuario);
                     break;
 
                 case 3:
-                    System.out.print("Histórico de Compras...");
+                    controllerUsuario.imprimirHistoricoDeCompras(usuario);
                     break;
 
                 case 0:
                     escritorDeArquivos.escreverCarrinho(usuario.getNome());
+                    Carrinho.limpar();
                     looping = false;
                     break;
             

@@ -13,6 +13,7 @@ public class UsuarioView {
             Preço: R$ %.2f
             Quantidade em estoque: %d
 
+            ══════════════════════════════════════
             """, id, nome, preco, quantidade);
     }
 }

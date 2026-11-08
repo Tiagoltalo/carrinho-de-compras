@@ -64,7 +64,6 @@ public abstract class Produto {
     public static List<Produto> getProdutos () { return produtos; }
 
     // ---------- dados do produto ----------
-
     public int getId () { return id; }
 
     public String getNome () { return nome; }

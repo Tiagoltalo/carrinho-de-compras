@@ -3,9 +3,14 @@ package br.com.trabalho.carrinhodecompras.utils;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import br.com.trabalho.carrinhodecompras.model.Carrinho;
+import br.com.trabalho.carrinhodecompras.model.Compra;
+import br.com.trabalho.carrinhodecompras.model.ItemComprado;
 import br.com.trabalho.carrinhodecompras.model.Produto;
 import br.com.trabalho.carrinhodecompras.model.Usuario;
 import br.com.trabalho.carrinhodecompras.exception.FalhaNoArquivoException;
@@ -46,8 +51,18 @@ public class EscritorDeArquivos {
             linhas.add(String.join(";", campos));
         }
 
+        // Grava num arquivo temporário e só depois troca pelo definitivo: se der erro no meio,
+        // o arquivo antigo continua intacto (em vez de ficar cortado pela metade).
+        Path temporario = diretorio.resolve(nome + ".txt.tmp");
+
         try {
-            Files.write(path, linhas);
+            Files.write(temporario, linhas);
+
+            try {
+                Files.move(temporario, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            } catch (AtomicMoveNotSupportedException e) {
+                Files.move(temporario, path, StandardCopyOption.REPLACE_EXISTING);
+            }
         } catch (IOException e) {
             utils.imprimirMensagem("ERRO: o arquivo " + nome + ".txt falhou ao ser escrito.\n\n");
         }
@@ -104,7 +119,39 @@ public class EscritorDeArquivos {
         escreverArquivo("carrinho_" + nome, listaDeProdutosNoCarrinho);
     }
 
+    /**
+     * Grava o histórico de cada cliente em data/historico-compra-NOME.txt (uma linha por item comprado):
+     * idCompra;dataHora;formaDePagamento;valorDaCompra;valorPago;codigoDeAutorizacao;idProduto;nomeDoProduto;precoUnitario;quantidade
+     * Clientes sem nenhuma compra não ganham arquivo.
+     */
     public void escreverCompras () {
+        for (Map.Entry<String, List<Compra>> historico : Compra.getHistoricoPorCliente().entrySet()) {
+            if (historico.getValue().isEmpty()) {
+                continue;
+            }
 
+            List<String[]> linhas = new ArrayList<>();
+
+            for (Compra compra : historico.getValue()) {
+                for (ItemComprado item : compra.getItens()) {
+                    String[] campos = {
+                        compra.getId(),
+                        compra.getDataHora().toString(),
+                        compra.getFormaDePagamento().replace(";", ","),
+                        compra.getValorDaCompra().toPlainString(),
+                        compra.getValorPago().toPlainString(),
+                        compra.getCodigoDeAutorizacao().replace(";", ","),
+                        String.valueOf(item.idProduto()),
+                        item.nome().replace(";", ","), // o ";" separa os campos do arquivo
+                        item.precoUnitario().toPlainString(),
+                        String.valueOf(item.quantidade())
+                    };
+
+                    linhas.add(campos);
+                }
+            }
+
+            escreverArquivo("historico-compra-" + historico.getKey(), linhas);
+        }
     }
 }

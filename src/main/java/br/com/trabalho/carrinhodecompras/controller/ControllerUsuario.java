@@ -1,18 +1,22 @@
 package br.com.trabalho.carrinhodecompras.controller;
 
 import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import br.com.trabalho.carrinhodecompras.io.UsuarioView;
 import br.com.trabalho.carrinhodecompras.io.LeitorDeOpcao;
 import br.com.trabalho.carrinhodecompras.io.LeitorDeCarrinho;
 import br.com.trabalho.carrinhodecompras.model.Carrinho;
+import br.com.trabalho.carrinhodecompras.model.Compra;
 import br.com.trabalho.carrinhodecompras.model.Produto;
+import br.com.trabalho.carrinhodecompras.model.Usuario;
 import br.com.trabalho.carrinhodecompras.exception.LeituraInvalidaException;
 import br.com.trabalho.carrinhodecompras.exception.ProdutoDuplicadoException;
 import br.com.trabalho.carrinhodecompras.utils.Utils;
 
 public class ControllerUsuario {
     private final UsuarioView usuarioView = new UsuarioView();
-    private final ControllerPagamento controllerPagamento = new ControllerPagamento();
+    private final ControllerCompra controllerCompra = new ControllerCompra();
     private final LeitorDeOpcao leitorDeOpcao = new LeitorDeOpcao();
     private final LeitorDeCarrinho leitorDeCarrinho = new LeitorDeCarrinho();
     private final Utils utils = new Utils();
@@ -88,9 +92,8 @@ public class ControllerUsuario {
         }
     }
 
-    public void acessarCarrinho () {
+    public void acessarCarrinho (Usuario usuario) {
         int opcao;
-        double subtotal = 0;
         boolean looping = true;
 
         while (looping) {
@@ -102,20 +105,19 @@ public class ControllerUsuario {
                 BigDecimal preco = produtoNoCarrinho.getPreco();
                 int quantidade = produtoNoCarrinho.getQuantidade();
 
-                subtotal += produtoNoCarrinho.getPreco().doubleValue() * quantidade;
     
                 usuarioView.imprimirProduto(id, nome, preco, quantidade);
             }
     
             utils.imprimirMensagem("══════════════════════════════════════\n\n");
-            utils.imprimirMensagem("Subtotal: R$ " + subtotal + "\n\n");
-            utils.imprimirMensagem("1: Área de Pagamento | 2: Excluir Produto do Carrinho | 0: retornar ao menu\n\n");
+            utils.imprimirMensagem("Subtotal: " + utils.formatarMoeda(Carrinho.calcularSubtotal()) + "\n\n");
+            utils.imprimirMensagem("1: Área de Pagamento | 2: Excluir Produto do Carrinho | 3: Alterar Quantidade | 0: retornar ao menu\n\n");
 
             opcao = leitorDeOpcao.lerOpcao();
 
             switch (opcao) {
                 case 1:
-                    controllerPagamento.realizarPagamento(BigDecimal.valueOf(subtotal));
+                    controllerCompra.finalizarCompra(usuario);
                     utils.pausar();
                     break;
 
@@ -132,11 +134,16 @@ public class ControllerUsuario {
 
                     if (produtoEncontrado) {
                         utils.imprimirMensagem("\nProduto excluido do carrinho.");
-                        Carrinho.getListaDeProdutosNoCarrinho().remove(Carrinho.buscarPorId(Carrinho.getListaDeProdutosNoCarrinho(), id));
+                        Carrinho.getListaDeProdutosNoCarrinho().removeIf(item -> item.getId() == id);
                     } else {
                         utils.imprimirMensagem("\nO produto informado não está no carrinho.");
                     }
                     
+                    utils.pausar();
+                    break;
+
+                case 3:
+                    alterarQuantidadeNoCarrinho();
                     utils.pausar();
                     break;
 
@@ -145,14 +152,69 @@ public class ControllerUsuario {
                     break;
 
                 default:
-                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 2.\n");
+                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 3.\n");
                     utils.pausar();
                     break;
             }
         }
     }
 
-    public void imprimirHistoricoDeCompras () {
+    /** Altera a quantidade de um item do carrinho (o id é o mostrado no carrinho). */
+    private void alterarQuantidadeNoCarrinho () {
+        int id = leitorDeCarrinho.lerId();
+        Carrinho item = null;
 
+        for (Carrinho produtoNoCarrinho : Carrinho.getListaDeProdutosNoCarrinho()) {
+            if (produtoNoCarrinho.getId() == id) {
+                item = produtoNoCarrinho;
+                break;
+            }
+        }
+
+        if (item == null) {
+            utils.imprimirMensagem("\nO produto informado não está no carrinho.");
+            return;
+        }
+
+        int quantidade = leitorDeCarrinho.lerQuantidade();
+        Produto produto = Produto.buscarPorId(Produto.getProdutos(), item.getIdProduto());
+
+        if (produto == null) {
+            utils.imprimirMensagem("\nEste produto não existe mais. Exclua-o do carrinho.");
+        } else if (quantidade > produto.getQuantidade()) {
+            utils.imprimirMensagem("\nA quantidade inserida é maior do que a contida no estoque (" + produto.getQuantidade() + ").");
+        } else {
+            item.setQuantidade(quantidade);
+            utils.imprimirMensagem("\nQuantidade alterada.");
+        }
+    }
+
+    /** Mostra as compras do cliente (id, data e hora, forma de pagamento, valor final) e o total gasto. */
+    public void imprimirHistoricoDeCompras (Usuario usuario) {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        List<Compra> compras = Compra.getHistorico(usuario.getNome());
+        BigDecimal totalGasto = BigDecimal.ZERO;
+
+        utils.limparTerminal();
+
+        if (compras.isEmpty()) {
+            utils.imprimirMensagem("Você ainda não fez nenhuma compra.\n");
+            utils.pausar();
+            return;
+        }
+
+        for (Compra compra : compras) {
+            utils.imprimirMensagem("══════════════════════════════════════\n\n");
+            utils.imprimirMensagem("Compra: " + compra.getId() + "\n");
+            utils.imprimirMensagem("Data e hora: " + compra.getDataHora().format(formato) + "\n");
+            utils.imprimirMensagem("Forma de pagamento: " + compra.getFormaDePagamento() + "\n");
+            utils.imprimirMensagem("Valor final pago: " + utils.formatarMoeda(compra.getValorPago()) + "\n\n");
+
+            totalGasto = totalGasto.add(compra.getValorPago());
+        }
+
+        utils.imprimirMensagem("══════════════════════════════════════\n\n");
+        utils.imprimirMensagem("Total gasto em todas as compras: " + utils.formatarMoeda(totalGasto) + "\n");
+        utils.pausar();
     }
 }
