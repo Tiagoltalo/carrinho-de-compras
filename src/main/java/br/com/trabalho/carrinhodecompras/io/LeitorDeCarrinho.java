@@ -24,7 +24,13 @@ public class LeitorDeCarrinho {
             System.out.print("Digite a quantidade: ");
 
             try {
-                return ValidadorProduto.validarQuantidade(utils.lerTexto());
+                int quantidade = ValidadorProduto.validarQuantidade(utils.lerTexto());
+
+                if (quantidade == 0) {
+                    throw new LeituraInvalidaException("0", "quantidade", "a quantidade deve ser maior que zero.");
+                }
+
+                return quantidade;
             } catch (LeituraInvalidaException e) {
                 utils.imprimirMensagem(e.getMessage() + "\n\n");
             }
