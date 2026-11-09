@@ -26,7 +26,7 @@ public class ControllerLogin {
             Usuario.adicionarUsuarioALista(usuario);
             utils.imprimirMensagem("\nUsuário criado com sucesso.");
         } else {
-            utils.imprimirMensagem("\nJá existe um usuário com esse nome. Por favor, insira um nome diferente.");
+            utils.imprimirMensagem("\nNome de usuário indisponível. Por favor, insira um nome diferente.");
         }
 
         utils.pausar();
@@ -41,12 +41,12 @@ public class ControllerLogin {
             utils.imprimirMensagem("\nA senha ou nome são inválidos.");
             utils.pausar();
         } else if (usuarioLogado.getNome().equals("admin")) {
-            utils.imprimirMensagem("\nVocê entrou como um administrador. Bem vindo.\n");
+            utils.imprimirMensagem("\nVocê entrou como um administrador. Bem vindo!\n");
             utils. pausar();
 
             menuAdministrador.menu();
         } else {
-            utils.imprimirMensagem("\nLogin efetuado com sucesso.\nBem vindo, " + usuarioLogado.getNome() + ".\n");
+            utils.imprimirMensagem("\nLogin efetuado com sucesso.\nBem vindo, " + usuarioLogado.getNome() + "!\n");
             utils.pausar();
 
             menuUsuario.menu(usuarioLogado);

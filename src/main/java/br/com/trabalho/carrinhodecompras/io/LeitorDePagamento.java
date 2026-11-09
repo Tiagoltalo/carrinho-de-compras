@@ -11,13 +11,13 @@ public class LeitorDePagamento {
 
     // ---------- formas de pagamento ----------
     public CartaoDeCredito lerCartaoDeCredito () {
-        utils.imprimirMensagem("=== Cartão de Crédito ===\n\n");
+        utils.imprimirMensagem("═══════ Cartão de Crédito ═══════\n\n");
 
         return new CartaoDeCredito(lerNumeroDoCartao(), lerCvv(), lerValidade());
     }
 
     public CartaoDeDebito lerCartaoDeDebito () {
-        utils.imprimirMensagem("=== Cartão de Débito ===\n\n");
+        utils.imprimirMensagem("═══════ Cartão de Débito ═══════\n\n");
 
         return new CartaoDeDebito(lerNumeroDoCartao(), lerCvv(), lerValidade());
     }

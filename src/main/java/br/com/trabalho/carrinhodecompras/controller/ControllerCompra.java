@@ -69,16 +69,15 @@ public class ControllerCompra {
             Produto produto = Produto.buscarPorId(Produto.getProdutos(), item.getIdProduto());
 
             if (produto == null) {
-                throw new FinalizacaoDeCompraException("o produto \"" + item.getNome() + "\" não existe mais. Remova-o do carrinho.");
+                throw new FinalizacaoDeCompraException("O produto \"" + item.getNome() + "\" não existe mais. Remova-o do carrinho.");
             }
 
             if (produto.getQuantidade() == 0) {
-                throw new FinalizacaoDeCompraException("o produto \"" + item.getNome() + "\" está esgotado. Remova-o do carrinho.");
+                throw new FinalizacaoDeCompraException("O produto \"" + item.getNome() + "\" está esgotado. Remova-o do carrinho.");
             }
 
             if (item.getQuantidade() <= 0 || item.getQuantidade() > produto.getQuantidade()) {
-                throw new FinalizacaoDeCompraException("estoque insuficiente de \"" + item.getNome()
-                        + "\" (pedido: " + item.getQuantidade() + ", disponível: " + produto.getQuantidade() + "). Ajuste o carrinho.");
+                throw new FinalizacaoDeCompraException("Estoque insuficiente de \"" + item.getNome() + "\" (pedido: " + item.getQuantidade() + ", disponível: " + produto.getQuantidade() + "). Ajuste o carrinho.");
             }
         }
 
@@ -113,7 +112,7 @@ public class ControllerCompra {
                 produto.setQuantidade(produto.getQuantidade() + item.quantidade());
             }
 
-            throw new FinalizacaoDeCompraException("falha ao atualizar o estoque (nada foi alterado).");
+            throw new FinalizacaoDeCompraException("Falha ao atualizar o estoque (nada foi alterado).");
         }
     }
 }

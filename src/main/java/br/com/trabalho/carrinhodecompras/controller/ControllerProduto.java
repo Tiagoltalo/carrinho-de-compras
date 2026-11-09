@@ -26,7 +26,7 @@ public class ControllerProduto {
         // Mesmo esquema do id de usuário (ControllerLogin.criarUsuario): último id + 1.
         int id = Produto.buscarUltimoId(Produto.getProdutos()) + 1;
 
-        utils.imprimirMensagem("=== Cadastrar Produto ===\n\n");
+        utils.imprimirMensagem("═══════ Cadastrar Produto ═══════\n\n");
         String nome = leitorDeProduto.lerNome();
         BigDecimal preco = leitorDeProduto.lerPreco();
         int quantidade = leitorDeProduto.lerQuantidade();
@@ -44,7 +44,7 @@ public class ControllerProduto {
 
     // ---------- CONSULTAR ----------
     public void consultarProduto () {
-        utils.imprimirMensagem("=== Consultar Produto ===\n\n");
+        utils.imprimirMensagem("═══════ Consultar Produto ═══════\n\n");
         Produto produto = buscarProdutoPeloId();
 
         if (produto != null) {
@@ -57,7 +57,7 @@ public class ControllerProduto {
 
     // ---------- EDITAR ----------
     public void editarProduto () {
-        utils.imprimirMensagem("=== Editar Produto ===\n\n");
+        utils.imprimirMensagem("═══════ Editar Produto ═══════\n\n");
         Produto produto = buscarProdutoPeloId();
 
         if (produto == null) {
@@ -78,19 +78,19 @@ public class ControllerProduto {
             switch (opcao) {
                 case 1:
                     produto.setNome(leitorDeProduto.lerNome());
-                            utils.imprimirMensagem("\nNome atualizado com sucesso.\n");
+                            utils.imprimirMensagem("\nNome atualizado com sucesso!\n");
                     utils.pausar();
                     break;
 
                 case 2:
                     produto.setQuantidade(leitorDeProduto.lerQuantidade());
-                            utils.imprimirMensagem("\nQuantidade em estoque atualizada com sucesso.\n");
+                            utils.imprimirMensagem("\nQuantidade em estoque atualizada com sucesso!\n");
                     utils.pausar();
                     break;
 
                 case 3:
                     produto.setPreco(leitorDeProduto.lerPreco());
-                            utils.imprimirMensagem("\nPreço atualizado com sucesso.\n");
+                            utils.imprimirMensagem("\nPreço atualizado com sucesso!\n");
                     utils.pausar();
                     break;
 
@@ -108,7 +108,7 @@ public class ControllerProduto {
 
     // ---------- EXCLUIR ----------
     public void excluirProduto () {
-        utils.imprimirMensagem("=== Excluir Produto ===\n\n");
+        utils.imprimirMensagem("═══════ Excluir Produto ═══════\n\n");
         Produto produto = buscarProdutoPeloId();
 
         if (produto == null) {
@@ -124,7 +124,7 @@ public class ControllerProduto {
             utils.imprimirMensagem("\nSenha incorreta. Exclusão cancelada.\n");
         } else {
             Produto.removerProdutoDaLista(produto);
-            utils.imprimirMensagem("\nProduto excluído com sucesso.\n");
+            utils.imprimirMensagem("\nProduto excluído com sucesso!\n");
         }
 
         utils.pausar();
@@ -151,7 +151,7 @@ public class ControllerProduto {
             if (opcao == 1) return true;
             if (opcao == 2) return false;
 
-            utils.imprimirMensagem("Insira 1 para sim ou 2 para não.\n\n");
+            utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 1 e 2.\n\n");
         }
     }
 

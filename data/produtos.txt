@@ -1,2 +1,2 @@
-1;bolinha de queijo;3.00;35
+1;bolinha de queijo;3.00;32
 2;ice kiss;0.50;20

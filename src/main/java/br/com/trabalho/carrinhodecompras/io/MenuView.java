@@ -21,33 +21,22 @@ public class MenuView {
         ║            Menu Principal            ║
         ╠══════════════════════════════════════╣
         ║  [ 1 ] Listar Produtos               ║
-        ║  [ 2 ] Adicionar ao Carrinho         ║
-        ║  [ 3 ] Acessar Carrinho              ║
-        ║  [ 4 ] Histórico de Compras          ║
+        ║  [ 2 ] Gerenciar Carrinho            ║
+        ║  [ 3 ] Histórico de Compras          ║
         ║  [ 0 ] Retornar ao Menu Principal    ║
         ╚══════════════════════════════════════╝
-        """);
-    }
-
-    public void imprimirMenuAdicionarAoCarrinho () {
-        System.out.println("""
-        ╔═════════════════════════════════════════╗
-        ║          Adicionar ao Carrinho          ║
-        ╠═════════════════════════════════════════╣
-        ║  [ 1 ] Adicionar Produto ao Carrinho    ║
-        ║  [ 0 ] Voltar ao Menu Principal         ║
-        ╚═════════════════════════════════════════╝
         """);
     }
 
     public void imprimirMenuCarrinho () {
         System.out.println("""
         ╔══════════════════════════════════════════════════╗
-        ║                     Carrinho                     ║
+        ║                Gerenciar Carrinho                ║
         ╠══════════════════════════════════════════════════╣
-        ║  [ 1 ] Finalizar Compra                          ║
-        ║  [ 2 ] Excluir Produto do Carrinho               ║
-        ║  [ 3 ] Alterar Quantidade                        ║
+        ║  [ 1 ] Adicionar Produto ao Carrinho             ║
+        ║  [ 2 ] Finalizar Compra                          ║
+        ║  [ 3 ] Excluir Produto do Carrinho               ║
+        ║  [ 4 ] Alterar Quantidade                        ║
         ║  [ 0 ] Voltar ao Menu Principal                  ║
         ╚══════════════════════════════════════════════════╝
         """);

@@ -36,33 +36,6 @@ public class ControllerUsuario {
         utils.pausar();
     }
 
-    public void adicionarProdutosAoCarrinho () {
-        boolean looping = true;
-
-        while (looping) {
-            utils.limparTerminal();
-            menuView.imprimirMenuAdicionarAoCarrinho();
-
-            int opcao = leitorDeOpcao.lerOpcao();
-
-            switch (opcao) {
-                case 1:
-                    adicionarProdutoAoCarrinho();
-                    utils.pausar();
-                    break;
-
-                case 0:
-                    looping = false;
-                    break;
-
-                default:
-                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 1.\n");
-                    utils.pausar();
-                    break;
-            }
-        }
-    }
-
     /** Lê o id, mostra o produto, lê a quantidade e só adiciona se o cliente confirmar. */
     private void adicionarProdutoAoCarrinho () {
         try {
@@ -75,7 +48,7 @@ public class ControllerUsuario {
             }
 
             if (Carrinho.buscarPorId(Carrinho.getListaDeProdutosNoCarrinho(), idProduto) != null) {
-                utils.imprimirMensagem("\nO produto já foi adicionado ao carrinho. Para mudar a quantidade, use Acessar Carrinho.");
+                utils.imprimirMensagem("\nO produto já foi adicionado ao carrinho. Para mudar a quantidade, use a opção Alterar Quantidade.");
                 return;
             }
 
@@ -119,7 +92,7 @@ public class ControllerUsuario {
         }
     }
 
-    public void acessarCarrinho (Usuario usuario) {
+    public void gerenciarCarrinho (Usuario usuario) {
         int opcao;
         boolean looping = true;
 
@@ -132,7 +105,6 @@ public class ControllerUsuario {
                 BigDecimal preco = produtoNoCarrinho.getPreco();
                 int quantidade = produtoNoCarrinho.getQuantidade();
 
-    
                 usuarioView.imprimirItemDoCarrinho(id, nome, preco, quantidade);
 
                 Produto produtoNoEstoque = Produto.buscarPorId(Produto.getProdutos(), produtoNoCarrinho.getIdProduto());
@@ -155,11 +127,16 @@ public class ControllerUsuario {
 
             switch (opcao) {
                 case 1:
-                    controllerCompra.finalizarCompra(usuario);
+                    adicionarProdutoAoCarrinho();
                     utils.pausar();
                     break;
 
                 case 2:
+                    controllerCompra.finalizarCompra(usuario);
+                    utils.pausar();
+                    break;
+
+                case 3:
                     int id = leitorDeCarrinho.lerId();
                     boolean produtoEncontrado = false;
 
@@ -180,7 +157,7 @@ public class ControllerUsuario {
                     utils.pausar();
                     break;
 
-                case 3:
+                case 4:
                     alterarQuantidadeNoCarrinho();
                     utils.pausar();
                     break;
@@ -190,7 +167,7 @@ public class ControllerUsuario {
                     break;
 
                 default:
-                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 3.\n");
+                    utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 0 - 4.\n");
                     utils.pausar();
                     break;
             }

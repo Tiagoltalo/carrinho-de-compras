@@ -24,7 +24,7 @@ public class Compra {
     public Compra (int id, String nomeDoCliente, List<ItemComprado> itens, String formaDePagamento, BigDecimal valorDaCompra, BigDecimal valorPago, LocalDateTime dataHora) {
         this.id = id;
         this.nomeDoCliente = nomeDoCliente;
-        this.itens = List.copyOf(itens); // cópia imutável
+        this.itens = List.copyOf(itens);
         this.formaDePagamento = formaDePagamento;
         this.valorDaCompra = valorDaCompra;
         this.valorPago = valorPago;

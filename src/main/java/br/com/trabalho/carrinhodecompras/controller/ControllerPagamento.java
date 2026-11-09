@@ -82,7 +82,7 @@ public class ControllerPagamento {
 
         try {
             ComprovanteDePagamento comprovante = formaDePagamento.pagar(valorDaCompra);
-            imprimirComprovante(comprovante);
+            utils.imprimirMensagem("\nPagamento efetuado com sucesso!\n");
             utils.pausar();
             return Optional.of(comprovante);
         } catch (PagamentoRecusadoException e) {
@@ -90,14 +90,6 @@ public class ControllerPagamento {
             utils.pausar();
             return Optional.empty();
         }
-    }
-
-    private void imprimirComprovante (ComprovanteDePagamento comprovante) {
-        utils.imprimirMensagem("\nPagamento aprovado!\n\n");
-        utils.imprimirMensagem("Forma de pagamento: " + comprovante.formaDePagamento() + "\n");
-        utils.imprimirMensagem("Valor da compra: " + utils.formatarMoeda(comprovante.valorDaCompra()) + "\n");
-        utils.imprimirMensagem("Desconto: " + utils.formatarMoeda(comprovante.desconto()) + "\n");
-        utils.imprimirMensagem("Valor pago: " + utils.formatarMoeda(comprovante.valorPago()) + "\n");
     }
 
     private boolean confirmarPagamento () {
@@ -108,7 +100,7 @@ public class ControllerPagamento {
             if (opcao == 1) return true;
             if (opcao == 2) return false;
 
-            utils.imprimirMensagem("Insira 1 para sim ou 2 para não.\n\n");
+            utils.imprimirMensagem("O valor inserido não condiz com nenhuma das opções.\nInsira um valor entre 1 e 2.\n\n");
         }
     }
 }

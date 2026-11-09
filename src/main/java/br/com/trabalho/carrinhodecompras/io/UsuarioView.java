@@ -19,13 +19,13 @@ public class UsuarioView {
 
     private void imprimir (int id, String nome, BigDecimal preco, String rotuloDaQuantidade, int quantidade) {
         System.out.printf(Locale.forLanguageTag("pt-BR"), """
-            ══════════════════════════════════════
             
-            Id: %d
-            Nome: %s
-            Preço: R$ %.2f
-            %s: %d
-
+        Id: %d
+        Nome: %s
+        Preço: R$ %.2f
+        %s: %d
+        
+        ══════════════════════════════════════
             """, id, nome, preco, rotuloDaQuantidade, quantidade);
     }
 }

@@ -9,7 +9,7 @@ public class LeitorDeCarrinho {
 
     public int lerId () {
         while (true) {
-            System.out.print("Digite o id do produto: ");
+            System.out.print("\nDigite o id do produto: ");
             
             try {
                 return ValidadorProduto.validarId(utils.lerTexto());
